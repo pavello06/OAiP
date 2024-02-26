@@ -1,29 +1,37 @@
 Unit LinkedList;
 
 Interface
+    Uses
+        Vcl.Grids;
+
+    Const
+        MAX_LENGTH = 13;
+
+    Type
+        TLimitedString = String[MAX_LENGTH];
+
+        TLinkedList = ^TNode;
+
+        TNode = Record
+            Data: TLimitedString;
+            Next: TLinkedList;
+        End;
+
+    Var
+        List, Head: TLinkedList;
+
+    Procedure Make();
+    Procedure Add(Data: TLimitedString);
+    Procedure Remove(Number: Integer);
+    Procedure Reverse();
+    Procedure Clear();
+    Procedure WriteLinkedList(StringGrid: TStringGrid);
 
 Implementation
 
 {$R *.res}
 
-Uses
-    Vcl.Grids;
 
-Const
-    MAX_LENGTH = 13;
-
-Type
-    TLimitedString = String[MAX_LENGTH];
-
-    TLinkedList = ^TNode;
-
-    TNode = Record
-        Data: TLimitedString;
-        Next: TLinkedList;
-    End;
-
-Var
-    List, Head: TLinkedList;
 
 Procedure Make();
 Begin

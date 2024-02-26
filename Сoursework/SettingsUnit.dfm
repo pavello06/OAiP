@@ -24957,7 +24957,7 @@ object SettingsForm: TSettingsForm
     Height = 82
     VisibleButtons = [btPlay, btPause]
     DoubleBuffered = True
-    FileName = 'C:\'#1041#1043#1059#1048#1056'\'#1054#1040#1048#1055'\'#1050#1091#1088#1089#1072#1095'\BackgroundSong.mp3'
+    FileName = 'C:\BSUIR\OAiP\'#1057'oursework\BackgroundSong.mp3'
     ParentDoubleBuffered = False
     TabOrder = 1
     OnClick = BackgroundSongMediaPLayerClick

@@ -2,8 +2,8 @@ object StartForm: TStartForm
   Left = 0
   Top = 0
   Caption = #1055#1089#1090#1088#1080#1095#1082#1080
-  ClientHeight = 582
-  ClientWidth = 880
+  ClientHeight = 573
+  ClientWidth = 874
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,8 +17,8 @@ object StartForm: TStartForm
   object BackgroundImage: TImage
     Left = 0
     Top = 0
-    Width = 880
-    Height = 582
+    Width = 874
+    Height = 573
     Align = alClient
     Picture.Data = {
       0954506E67496D61676589504E470D0A1A0A0000000D49484452000003470000

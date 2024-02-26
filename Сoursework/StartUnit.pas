@@ -1,44 +1,47 @@
-unit StartUnit;
+Unit StartUnit;
 
-interface
+Interface
 
-uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.pngimage,
-  Vcl.ExtCtrls, Vcl.XPMan, Vcl.Buttons, PlayUnit, RuleUnit, SettingsUnit;
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.pngimage,
+    Vcl.ExtCtrls, Vcl.XPMan, Vcl.Buttons, PlayUnit, RuleUnit, SettingsUnit;
 
-type
-  TStartForm = class(TForm)
-    BackgroundImage: TImage;
-    TitleLabel: TLabel;
-    PlayButton: TButton;
-    RuleButton: TButton;
-    SettingsButton: TButton;
-    DevelopersButton: TButton;
+Type
+    TStartForm = Class(TForm)
+        BackgroundImage: TImage;
+        TitleLabel: TLabel;
+        PlayButton: TButton;
+        RuleButton: TButton;
+        SettingsButton: TButton;
+        DevelopersButton: TButton;
 
-    procedure StartFormResize(Sender: TObject; var NewWidth, NewHeight: Integer; var Resize: Boolean);
+        Procedure StartFormResize(Sender: TObject;
+            Var NewWidth, NewHeight: Integer; Var Resize: Boolean);
 
-    procedure ButtonMouseEnter(Sender: TObject);
-    procedure ButtonMouseLeave(Sender: TObject);
+        Procedure ButtonMouseEnter(Sender: TObject);
+        Procedure ButtonMouseLeave(Sender: TObject);
 
-    procedure PlayButtonClick(Sender: TObject);
-    procedure RuleButtonClick(Sender: TObject);
-    procedure SettingsButtonClick(Sender: TObject);
+        Procedure PlayButtonClick(Sender: TObject);
+        Procedure RuleButtonClick(Sender: TObject);
+        Procedure SettingsButtonClick(Sender: TObject);
 
-  private
-    { Private declarations }
-  public
-    { Public declarations }
-  end;
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
 
 Var
-  StartForm: TStartForm;
+    StartForm: TStartForm;
 
 Implementation
 
 {$R *.dfm}
 
-Procedure TStartForm.StartFormResize(Sender: TObject; Var NewWidth, NewHeight: Integer; Var Resize: Boolean);
+Procedure TStartForm.StartFormResize(Sender: TObject;
+    Var NewWidth, NewHeight: Integer; Var Resize: Boolean);
 Var
     MaxClientWidth, MaxClientHeight, MinClientWidth, MinClientHeight: Integer;
     TransformCoof: Real;
@@ -74,46 +77,48 @@ Begin
     PlayButton.Height := HeightButton;
     PlayButton.Font.Size := FontSizeButton;
     PlayButton.Left := LeftButton;
-    PlayButton.Top := TitleLabel.Top + TitleLabel.Height + Trunc(100 * TransformCoof);
+    PlayButton.Top := TitleLabel.Top + TitleLabel.Height +
+        Trunc(100 * TransformCoof);
 
     RuleButton.Width := WidthButton;
     RuleButton.Height := HeightButton;
     RuleButton.Font.Size := FontSizeButton;
     RuleButton.Left := LeftButton;
-    RuleButton.Top := PlayButton.Top + PlayButton.Height + Trunc(30 * TransformCoof);
+    RuleButton.Top := PlayButton.Top + PlayButton.Height +
+        Trunc(30 * TransformCoof);
 
     SettingsButton.Width := WidthButton;
     SettingsButton.Height := HeightButton;
     SettingsButton.Font.Size := FontSizeButton;
     SettingsButton.Left := LeftButton;
-    SettingsButton.Top := RuleButton.Top + RuleButton.Height + Trunc(30 * TransformCoof);
+    SettingsButton.Top := RuleButton.Top + RuleButton.Height +
+        Trunc(30 * TransformCoof);
 
     DevelopersButton.Width := WidthButton;
     DevelopersButton.Height := HeightButton;
     DevelopersButton.Font.Size := FontSizeButton;
     DevelopersButton.Left := LeftButton;
-    DevelopersButton.Top := SettingsButton.Top + SettingsButton.Height + Trunc(30 * TransformCoof);
+    DevelopersButton.Top := SettingsButton.Top + SettingsButton.Height +
+        Trunc(30 * TransformCoof);
 End;
 
-
-procedure TStartForm.ButtonMouseEnter(Sender: TObject);
+Procedure TStartForm.ButtonMouseEnter(Sender: TObject);
 Var
     Button: TButton;
-begin
+Begin
     Button := TButton(Sender);
     Button.Font.Size := Button.Font.Size + 1;
     Button.Font.Style := [fsBold, fsItalic, fsUnderline];
-end;
+End;
 
-procedure TStartForm.ButtonMouseLeave(Sender: TObject);
+Procedure TStartForm.ButtonMouseLeave(Sender: TObject);
 Var
     Button: TButton;
-begin
+Begin
     Button := TButton(Sender);
     Button.Font.Size := Button.Font.Size - 1;
     Button.Font.Style := [fsBold, fsItalic];
-end;
-
+End;
 
 Procedure NewFormCreate(NewForm: TForm);
 Begin
@@ -126,19 +131,19 @@ Begin
     NewForm.Free;
 End;
 
-procedure TStartForm.PlayButtonClick(Sender: TObject);
+Procedure TStartForm.PlayButtonClick(Sender: TObject);
 Begin
     PlayForm := TPlayForm.Create(Self);
     NewFormCreate(PlayForm);
 End;
 
-procedure TStartForm.RuleButtonClick(Sender: TObject);
+Procedure TStartForm.RuleButtonClick(Sender: TObject);
 Begin
     RuleForm := TRuleForm.Create(Self);
     NewFormCreate(RuleForm);
 End;
 
-procedure TStartForm.SettingsButtonClick(Sender: TObject);
+Procedure TStartForm.SettingsButtonClick(Sender: TObject);
 Begin
     SettingsForm := TSettingsForm.Create(Self);
     NewFormCreate(SettingsForm);
