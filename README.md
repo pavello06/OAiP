@@ -18,19 +18,19 @@
                 <a href = "https://github.com/pavello06/Labs/blob/main/Forms/ApplicationLab11.exe">Form</a>
             </td>
             <td align="center">
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab12/Delphi/Lab12.dpr">Delphi</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab12/Delphi/Project2.dpr">Delphi</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Block1/Lab2/C++/C++.cpp">C++</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Block1/Lab2/Java/Java.java">Java</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Forms/ApplicationLab12.exe">Form</a>
             </td>
             <td align="center">
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab13/Delphi/Lab13.dpr">Delphi</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab13/Delphi/Project3.dpr">Delphi</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Block1/Lab3/C++/C++.cpp">C++</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Block1/Lab3/Java/Java.java">Java</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Forms/ApplicationLab13.exe">Form</a>
             </td>
             <td align="center">
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab14/Delphi/Lab14.dpr">Delphi</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab14/Delphi/Project4.dpr">Delphi</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Block1/Lab4/C++/C++.cpp">C++</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Block1/Lab4/Java/Java.java">Java</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Forms/ApplicationLab14.exe">Form</a>
