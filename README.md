@@ -88,11 +88,11 @@
         <tr>
             <td align="center">Block4</td>
             <td align="center">
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block4/Lab41/Delphi/Lab41.dpr">Delphi</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block4/Lab41/Delphi/ApplicationLab41.dpr">Delphi</a><br>
                 <a href = "https://github.com/pavello06/OAiP/blob/master/Block4/Lab41/C%23/Lab41/Program.cs">C#</a><br>
             </td>
             <td align="center">
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block4/Lab42/Delphi/Lab42.dpr">Delphi</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block4/Lab42/Delphi/ApplicationLab42.dpr">Delphi</a><br>
                 <a href = "https://github.com/pavello06/OAiP/blob/master/Block4/Lab42/C%23/Lab42/Program.cs">C#</a><br>
             </td>
             <td align="center">------</td>
@@ -101,12 +101,12 @@
         <tr>
             <td align="center">Block5</td>
             <td align="center">
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block5/Lab51/Delphi/Lab51.dpr">Delphi</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block5/Lab51/Delphi/ApplicationLab51.dpr">Delphi</a><br>
                 <a href = "https://github.com/pavello06/OAiP/blob/master/Block5/Lab51/C%23/Lab51/Program.cs">C#</a><br>
             </td>
             <td align="center">
-                <a href = "https://github.com/pavello06/Labs/blob/main/Block5/Lab2/Delphi/Win32/Debug/ApplicationLab52.exe">Delphi</a><br>
-                <a href = "https://github.com/pavello06/Labs/blob/main/Block5/Lab2/C%23/C%23.cs">C#</a><br>
+                <a href = "">Delphi</a><br>
+                <a href = "">C#</a><br>
             </td>
             <td align="center">------</td>
             <td align="center">------</td>
