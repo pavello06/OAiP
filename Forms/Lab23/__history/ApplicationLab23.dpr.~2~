@@ -1,0 +1,19 @@
+program ApplicationLab23;
+
+uses
+  Vcl.Forms,
+  Unit1 in 'Unit1.pas' {MainForm},
+  Vcl.Themes,
+  Vcl.Styles,
+  Unit2 in 'Unit2.pas' {InstructionForm};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  TStyleManager.TrySetStyle('Amakrits');
+  Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TInstructionForm, InstructionForm);
+  Application.Run;
+end.

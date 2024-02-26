@@ -1,0 +1,67 @@
+Program Lab21;
+Uses
+    System.SysUtils;
+Var
+    A: Array Of Integer;
+    N, I, ArrEl, CountOfEvenIndexOdd: Integer;
+    IsIncorrect: Boolean;
+Const
+    MIN_N = 1;
+    MAX_N = 10000;
+    MIN_A = -1000000;
+    MAX_A = 1000000;
+Begin
+    N := 0;
+    I := 0;
+    ArrEl := 0;
+    CountOfEvenIndexOdd := 0;
+    Writeln('Данная программа подсчитывает число нечётных чисел в масссиве с чётными индексами.');
+    Writeln;
+    IsIncorrect := True;
+    While (IsIncorrect) Do
+    Begin
+        Write('Введите число N элементов в массиве N[1; 10000]: ');
+        Try
+            Readln(N);
+            IsIncorrect := False;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+        If (Not IsIncorrect And ((N < MIN_N) Or (N > MAX_N))) Then
+        Begin
+            Writeln('Значение не попадает в диапазон!');
+            IsIncorrect := True;
+        End;
+    End;
+    SetLength(A, N);
+    For I := Low(A) To High(A) Do
+    Begin
+        IsIncorrect := True;
+        While (IsIncorrect) Do
+        Begin
+            Write('Введите ', I, ' элемент массива[-1000000; 1000000]: ');
+            Try
+                Readln(ArrEl);
+                IsIncorrect := False;
+            Except
+                Writeln('Проверьте корректность ввода данных!');
+            End;
+            If (Not IsIncorrect And ((ArrEl < MIN_A) Or (ArrEl > MAX_A))) Then
+            Begin
+                Writeln('Значение не попадает в диапазон!');
+                IsIncorrect := True;
+            End;
+        End;
+        A[I] := ArrEl;
+    End;
+    I := 0;
+    While (I < N) Do
+    Begin
+        If (A[i] Mod 2 = 1) Then
+            Inc(CountOfEvenIndexOdd);
+        Inc(I, 2);
+    End;
+    Writeln;
+    Write('Число нечётных чисел в массиве с чётными индексами: ', CountOfEvenIndexOdd);
+    Readln;
+End.

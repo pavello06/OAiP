@@ -1,0 +1,45 @@
+Unit InstructionUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+Type
+    TInstructionForm = Class(TForm)
+        InstructionMemo: TMemo;
+
+        Procedure InstructionFormCreate(Sender: TObject);
+        Procedure InstructionFormKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    InstructionForm: TInstructionForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TInstructionForm.InstructionFormCreate(Sender: TObject);
+Begin
+    InstructionMemo.Lines[0] := '1. Для добавления элемента к списку нажмите кнопку "Добавить".';
+    InstructionMemo.Lines[1] := '2. Для удаления элемента списка нажмите кнопку "Удалить".';
+    InstructionMemo.Lines[2] := '3. Для переворота списка нажмите кнопку "Перевернуть".';
+    InstructionMemo.Lines[3] := '4. Файл содержит номера начиная с +375.';
+End;
+
+Procedure TInstructionForm.InstructionFormKeyDown(Sender: TObject;
+    Var Key: Word; Shift: TShiftState);
+Begin
+    If Key = VK_ESCAPE Then
+        Close;
+End;
+
+End.

@@ -1,0 +1,66 @@
+Unit AddUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls;
+
+Type
+    TAddForm = Class(TForm)
+
+    NameLabel: TLabel;
+    NameEdit: TEdit;
+    AuthorLabel: TLabel;
+    AuthorEdit: TEdit;
+    DirectorLabel: TLabel;
+    DirectorEdit: TEdit;
+    DateLabel: TLabel;
+    DatePicker: TDateTimePicker;
+    TimeLabel: TLabel;
+    TimePicker: TDateTimePicker;
+
+    AddButton: TButton;
+    CancelButton: TButton;
+    procedure CloseButtonClick(Sender: TObject);
+    procedure AddButtonClick(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    AddForm: TAddForm;
+
+Implementation
+
+{$R *.dfm}
+
+Uses MainUnit;
+
+Procedure TAddForm.AddButtonClick(Sender: TObject);
+Var
+    Row: Integer;
+Begin
+    Row := MainForm.ShowsStringGrid.RowCount;
+    If Row < 7 Then
+        MainForm.ShowsStringGrid.Height := MainForm.ShowsStringGrid.Height + MainForm.ShowsStringGrid.DefaultRowHeight + 2
+    Else
+        MainForm.ShowsStringGrid.Width := MainForm.ShowsStringGrid.Width + 20;
+    MainForm.ShowsStringGrid.RowCount := MainForm.ShowsStringGrid.RowCount + 1;
+    MainForm.ShowsStringGrid.Cells[0, Row] := NameEdit.Text;
+    MainForm.ShowsStringGrid.Cells[1, Row] := AuthorEdit.Text;
+    MainForm.ShowsStringGrid.Cells[2, Row] := DirectorEdit.Text;
+    MainForm.ShowsStringGrid.Cells[3, Row] := TimeToStr(TimePicker.Time);
+    MainForm.ShowsStringGrid.Cells[4, Row] := DateToStr(DatePicker.Date);
+    Close;
+End;
+
+Procedure TAddForm.CloseButtonClick(Sender: TObject);
+Begin
+    Close;
+End;
+
+End.

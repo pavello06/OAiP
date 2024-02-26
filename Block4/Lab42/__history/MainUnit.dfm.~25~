@@ -1,0 +1,159 @@
+object MainForm: TMainForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = '351005 '#1043#1072#1083#1091#1093#1072' '#1055#1072#1074#1077#1083' Lab4.2'
+  ClientHeight = 568
+  ClientWidth = 618
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -18
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Menu = TabsMainMenu
+  Position = poScreenCenter
+  OnCloseQuery = MainFormCloseQuery
+  TextHeight = 25
+  object TaskLabel: TLabel
+    Left = 24
+    Top = 24
+    Width = 531
+    Height = 93
+    Caption = 
+      #1044#1072#1085#1085#1072#1103' '#1087#1088#1086#1075#1088#1072#1084#1084#1072' '#1089#1086#1089#1090#1072#1074#1083#1103#1077#1090' '#1074#1089#1077#1074#1086#1079#1084#1086#1078#1085#1099#1077' '#1087#1077#1088#1077#1089#1090#1072#1085#1086#1074#1082#1080' '#1088#1072#1079#1083#1080#1095#1085#1099#1093' ' +
+      #1085#1072#1091#1090#1088#1072#1083#1100#1085#1099#1093' '#1095#1080#1089#1077#1083' '#1089' '#1087#1086#1084#1086#1097#1100#1102' '#1088#1077#1082#1091#1088#1089#1080#1080'.'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -23
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold]
+    ParentFont = False
+    WordWrap = True
+  end
+  object NumsLabel: TLabel
+    Left = 24
+    Top = 240
+    Width = 324
+    Height = 25
+    Caption = #1042#1074#1077#1076#1080#1090#1077' '#1088#1072#1079#1083#1080#1095#1085#1099#1077' '#1085#1072#1090#1091#1088#1072#1083#1100#1085#1099#1077' '#1095#1080#1089#1083#1072':'
+    Enabled = False
+    Visible = False
+  end
+  object NumsCountLabel: TLabel
+    Left = 24
+    Top = 144
+    Width = 278
+    Height = 25
+    Caption = #1042#1074#1077#1076#1080#1090#1077' '#1082#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1095#1080#1089#1077#1083' '#1074' '#1088#1103#1076#1077':'
+  end
+  object NumsStringGrid: TStringGrid
+    Left = 24
+    Top = 280
+    Width = 68
+    Height = 65
+    ColCount = 1
+    DefaultRowHeight = 30
+    Enabled = False
+    FixedCols = 0
+    RowCount = 2
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing, goTabs, goFixedRowDefAlign]
+    TabOrder = 0
+    Visible = False
+    OnKeyDown = NumsStringGridKeyDown
+    OnKeyPress = NumsStringGridKeyPress
+    OnKeyUp = NumsStringGridKeyUp
+    OnSelectCell = NumsStringGridSelectCell
+    OnSetEditText = NumsStringGridSetEditText
+    ColWidths = (
+      64)
+  end
+  object ResultButton: TButton
+    Left = 24
+    Top = 376
+    Width = 233
+    Height = 33
+    Caption = #1055#1088#1086#1089#1084#1086#1090#1088#1077#1090#1100' '#1088#1077#1079#1091#1083#1100#1090#1072#1090
+    Enabled = False
+    TabOrder = 1
+    OnClick = ResultButtonClick
+  end
+  object ResultStringGrid: TStringGrid
+    Left = 24
+    Top = 431
+    Width = 324
+    Height = 129
+    DefaultRowHeight = 30
+    Enabled = False
+    FixedCols = 0
+    TabOrder = 2
+    Visible = False
+    ColWidths = (
+      64
+      64
+      64
+      64
+      64)
+  end
+  object NumsCountEdit: TEdit
+    Left = 24
+    Top = 184
+    Width = 169
+    Height = 33
+    TabOrder = 3
+    TextHint = #1050#1086#1083#1080#1095#1077#1089#1090#1074#1086' '#1095#1080#1089#1077#1083
+    OnChange = NumsCountEditChange
+    OnContextPopup = NumsCountEditContextPopup
+    OnKeyDown = NumsCountEditKeyDown
+    OnKeyPress = NumsCountEditKeyPress
+    OnKeyUp = NumsCountEditKeyUp
+  end
+  object TabsMainMenu: TMainMenu
+    Left = 576
+    Top = 24
+    object FileMenuItem: TMenuItem
+      Caption = #1060#1072#1081#1083
+      object OpenMenuItem: TMenuItem
+        Caption = #1054#1090#1082#1088#1099#1090#1100
+        ShortCut = 16463
+        OnClick = OpenMenuItemClick
+      end
+      object SaveMenuItem: TMenuItem
+        Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
+        Enabled = False
+        ShortCut = 16467
+        OnClick = SaveMenuItemClick
+      end
+      object SeparatorMenuItem: TMenuItem
+        Caption = '-'
+      end
+      object ExitMenuItem: TMenuItem
+        Caption = #1042#1099#1093#1086#1076
+        ShortCut = 16465
+        OnClick = ExitMenuItemClick
+      end
+    end
+    object InstructionMenuItem: TMenuItem
+      Caption = #1048#1085#1089#1090#1088#1091#1082#1094#1080#1103
+      OnClick = InstructionMenuItemClick
+    end
+    object DeveloperMenuItem: TMenuItem
+      Caption = #1054' '#1088#1072#1079#1088#1072#1073#1086#1090#1095#1080#1082#1077
+      OnClick = DeveloperMenuItemClick
+    end
+  end
+  object OpenTextFileDialog1: TOpenTextFileDialog
+    DefaultExt = 'txt'
+    Filter = '(*.txt)|*.txt'
+    Left = 576
+    Top = 88
+  end
+  object SaveTextFileDialog1: TSaveTextFileDialog
+    DefaultExt = 'txt'
+    Filter = '(*.txt)|*.txt'
+    Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
+    Left = 576
+    Top = 152
+  end
+end

@@ -1,0 +1,43 @@
+Unit InstructionUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+Type
+    TInstructionForm = Class(TForm)
+
+    InstructionLabel: TLabel;
+
+    Procedure InstructionFormCreate(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    InstructionForm: TInstructionForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TInstructionForm.InstructionFormCreate(Sender: TObject);
+Begin
+    InstructionLabel.Width := 800;
+    InstructionLabel.Caption := '1. Для добавления спектакля нажмите 1 кнопку сверху.'#13#10 +
+                                '2. Для удаления спектакля нажмите 2 кнопку сверху.'#13#10 +
+                                '3. Для редактирования спектакля нажмите 3 кнопку сверху или дважды кликните ЛКМ по нужному спектаклю.'#13#10 +
+                                '4. Для поиска ближайшего спектакля нажмите 4 кнопку сверху.'#13#10 +
+                                '5. Для просмотра содержимого ячейки кликните ЛКМ на неё.'#13#10 +
+                                '6. Для сортировки в выпадающем списке выберите интересующие вас пункты.'#13#10 +
+                                '7. Информация, которая будет считана из файла имеет такую структуру:'#13#10'Название'#13#10'Автор'#13#10'Директор'#13#10'Дата'#13#10'Время'#13#10#13#10'Название'#13#10'...';
+    InstructionLabel.Left := (ClientWidth - InstructionLabel.Width) Div 2;
+    InstructionLabel.Top := (ClientHeight - InstructionLabel.Height) Div 2;
+End;
+
+End.

@@ -1,0 +1,46 @@
+Program Project2;
+
+Uses
+    System.SysUtils;
+
+Var
+    Check: String;
+    N, I, Value1, Value2: Integer;
+
+Begin
+    Writeln('Данная программа проверяет, работает ли формула 1 + 2 + ... + N = N * (N + 1) / 2.');
+    Writeln;
+    While(True) Do
+    Begin
+        Try
+            Write('Введите натуральное число N для проверки: ');
+            Readln(Check);
+            N := StrToInt(Check);
+            If (N <= 0) Then
+            Begin
+                Writeln('Проверьте корректность ввода данных!');
+                Continue;
+            End;
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+
+    Value1 := 0;
+    For I := 1 To N Do
+         Value1 := Value1 + I;
+
+    Value2 := N * (N + 1) Div 2;
+
+    If (Value1 = Value2) Then
+    Begin
+        Writeln('Формула работает!');
+    End
+    Else
+    Begin
+        Writeln('Формула не работает!');
+    End;
+
+    Readln;
+End.

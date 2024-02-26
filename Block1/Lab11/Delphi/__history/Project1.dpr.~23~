@@ -1,0 +1,81 @@
+Program Task1;
+Uses
+    System.SysUtils;
+Const
+    MIN_R = 1;
+    MIN_XY = -100000;
+    MAX_ALL = 100000;
+    EPS = 0.00001;
+Var
+    R, X, Y: Real;
+    OnCircle: Char;
+    IsIncorrect: Boolean;
+Begin
+    R := 0;
+    X := 0;
+    Y := 0;
+    Writeln('Данная программа проверяет, находится ли точка с координатами (X; Y) на окружности радиусом R с центром в начале координат.');
+    Writeln;
+    IsIncorrect := True;
+    While (IsIncorrect) Do
+    Begin
+        Write('Введите радиус окружности R[1; 100000]: ');
+        Try
+            Readln(R);
+            IsIncorrect := False;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+        If (Not IsIncorrect And ((R < MIN_R) Or (R > MAX_ALL))) Then
+        Begin
+            Writeln('Значение не попадает в диапазон!');
+            IsIncorrect := True;
+        End;
+    End;
+    IsIncorrect := True;
+    While (IsIncorrect) Do
+    Begin
+        Write('Введите координату X[-100000; 100000] точки: ');
+        Try
+            Readln(X);
+            IsIncorrect := False;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+        If (Not IsIncorrect And ((X < MIN_XY) Or (X > MAX_ALL))) Then
+        Begin
+            Writeln('Значение не попадает в диапазон!');
+            IsIncorrect := True;
+        End;
+    End;
+    IsIncorrect := True;
+    While (IsIncorrect) Do
+    Begin
+        Write('Введите координату Y[-100000; 100000] точки: ');
+        Try
+            Readln(Y);
+            IsIncorrect := False;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+        If (Not IsIncorrect And ((Y < MIN_XY) Or (Y > MAX_ALL))) Then
+        Begin
+            Writeln('Значение не попадает в диапазон!');
+            IsIncorrect := True;
+        End;
+    End;
+    R := Round(R * 1000) / 1000;
+    X := Round(X * 1000) / 1000;
+    Y := Round(Y * 1000) / 1000;
+    If (abs(R * R - X * X + Y * Y) < EPS) Then
+    Begin
+        Writeln('Точка принадлежит окружности');
+        OnCircle := 'T';
+    End
+    Else
+    Begin
+        Writeln('Точка не принадлежит окружности');
+        OnCircle := 'F';
+    End;
+    Readln;
+End.

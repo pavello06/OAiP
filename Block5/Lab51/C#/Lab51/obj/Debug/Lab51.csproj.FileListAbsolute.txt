@@ -1,0 +1,7 @@
+C:\БГУИР\ОАиП\Лабораторные\Блок №5\Лабораторная 5.1\C#\Lab51\bin\Debug\Lab51.exe.config
+C:\БГУИР\ОАиП\Лабораторные\Блок №5\Лабораторная 5.1\C#\Lab51\bin\Debug\Lab51.exe
+C:\БГУИР\ОАиП\Лабораторные\Блок №5\Лабораторная 5.1\C#\Lab51\bin\Debug\Lab51.pdb
+C:\БГУИР\ОАиП\Лабораторные\Блок №5\Лабораторная 5.1\C#\Lab51\obj\Debug\Lab51.csproj.AssemblyReference.cache
+C:\БГУИР\ОАиП\Лабораторные\Блок №5\Лабораторная 5.1\C#\Lab51\obj\Debug\Lab51.csproj.CoreCompileInputs.cache
+C:\БГУИР\ОАиП\Лабораторные\Блок №5\Лабораторная 5.1\C#\Lab51\obj\Debug\Lab51.exe
+C:\БГУИР\ОАиП\Лабораторные\Блок №5\Лабораторная 5.1\C#\Lab51\obj\Debug\Lab51.pdb

@@ -1,0 +1,37 @@
+Unit InstructionUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+Type
+    TInstructionForm = Class(TForm)
+
+        InstructionLabel: TLabel;
+
+        Procedure InstructionFormCreate(Sender: TObject);
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    InstructionForm: TInstructionForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TInstructionForm.InstructionFormCreate(Sender: TObject);
+Begin
+    InstructionLabel.Width := 600;
+    InstructionLabel.Caption := '1. Введите различные натуральные числа в таблицу, для прекращения ввода введите символ ''q''.'#13#10 +
+                                '2. Файл должен содержать последовательность различных натуральных чисел разделённых пробелом.';
+    InstructionLabel.Left := (ClientWidth - InstructionLabel.Width) Div 2;
+    InstructionLabel.Top := (ClientHeight - InstructionLabel.Height) Div 2;
+End;
+
+End.

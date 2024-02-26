@@ -1,0 +1,68 @@
+Program Lab22;
+
+Uses
+    System.SysUtils;
+
+Procedure Task;
+Begin
+    Writeln('Данная программа подсчитывает сумму цифр введённого натурального числа.');
+    Writeln;
+End;
+
+Function Check() : Integer;
+
+Const
+    MIN = 1;
+    MAX = 1000000;
+Var
+    Num: Integer;
+    IsIncorrect: Boolean;
+
+Begin
+    IsIncorrect := True;
+    While (IsIncorrect) Do
+    Begin
+        Write('Введите натуральное чиcло[', MIN, '; ', MAX, ']: ');
+        Try
+            Readln(Num);
+            IsIncorrect := False;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+        If (Not IsIncorrect And ((Num < MIN) Or (Num > MAX))) Then
+        Begin
+            Writeln('Значение не попадает в диапазон!');
+            IsIncorrect := True;
+        End;
+    End;
+    Check := Num;
+End;
+
+Function CalcSumOfNums(Num : Integer) : Integer;
+
+Var
+    Sum: Integer;
+Const
+    DIGIT = 10;
+
+Begin
+    Sum := 0;
+    While (Not (Num = 0)) Do
+    Begin
+        Sum := Sum + Num Mod 10;
+        Num := Num Div DIGIT;
+    End;
+    CalcSumOfNums := Sum;
+End;
+
+Procedure Output();
+Begin
+    Writeln;
+    Writeln('Сумма цифр числа: ', CalcSumOfNums(Check()));
+End;
+
+Begin
+    Task();
+    Output();
+    Readln;
+End.

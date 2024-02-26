@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.619,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Developer.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.930,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\ResultUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.802,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.923,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.956,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Developer.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\DeveloperUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.573,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.956,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Developer.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\DeveloperUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.619,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Developer.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.139,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\InstructionUnit.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.410,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\MainUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.930,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\ResultUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.410,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\MainUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.206,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\ApplicationLab42.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.139,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\InstructionUnit.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.775,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.2\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.573,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.360,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.909,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

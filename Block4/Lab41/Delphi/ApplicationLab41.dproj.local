@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.471,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.020,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit2.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\DeveloperUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.799,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\StartUnit.pas=</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.584,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\AddUnit.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\EditUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.595,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\ApplicationLab41.dproj=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.396,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit2.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.020,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit2.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\DeveloperUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.327,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\StartUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.519,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\InstructionUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.700,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\AddUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.551,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\SearchUnit.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.575,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.575,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.036,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.700,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\AddUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.048,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.364,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.551,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\SearchUnit.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.327,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\StartUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.519,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\InstructionUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.657,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.114,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\MainUnit.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.114,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\MainUnit.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.909,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.733,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.320,=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.584,C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\AddUnit.dfm=C:\БГУИР\ОАИП\Лабораторные\Блок №4\Лабораторная 4.1\Delphi\EditUnit.dfm</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="DeveloperUnit.pas"/>
+    <File Path="DeveloperUnit.dfm"/>
+    <File Path="EditUnit.pas"/>
+    <File Path="EditUnit.dfm"/>
+    <File Path="InstructionUnit.pas"/>
+    <File Path="InstructionUnit.dfm"/>
+    <File Path="MainUnit.pas"/>
+    <File Path="MainUnit.dfm"/>
+    <File Path="SearchUnit.pas"/>
+    <File Path="SearchUnit.dfm"/>
+  </ProjectSortOrder>
+</BorlandProject>

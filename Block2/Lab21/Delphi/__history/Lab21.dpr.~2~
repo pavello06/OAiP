@@ -1,0 +1,6 @@
+program Lab21;
+uses
+  System.SysUtils;
+begin
+
+end.

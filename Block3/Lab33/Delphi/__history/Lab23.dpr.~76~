@@ -1,0 +1,449 @@
+Program Lab23;
+Uses
+  System.SysUtils;
+Type
+    TMatrix = Array Of Array Of Integer;
+Const
+    MIN_N = 1;
+    MAX_N = 10;
+    MIN_MAT = -1000000;
+    MAX_MAT = 1000000;
+    YES = 1;
+    NO = 2;
+Procedure PrintTask();
+Begin
+    WriteLn('Данная программа подсчитывает число строк в матрице, которые составлены из перестановок чисел от 1 до порядка матрицы.');
+    WriteLn;
+End;
+Function ChooseFileInput() : Boolean;
+Var
+    IsFileInput: Integer;
+    IsIncorrect: Boolean;
+Begin
+    IsIncorrect := True;
+    While IsIncorrect Do
+    Begin
+        WriteLn('Вы хотите вводить матрицу через файл? (Да - ', YES, ' / Нет - ', NO, ')');
+        Try
+            ReadLn(IsFileInput);
+            IsIncorrect := False;
+        Except
+            WriteLn('Некорректный выбор!');
+        End;
+        If Not IsIncorrect Then
+        Begin
+            If IsFileInput = YES Then
+            Begin
+                IsIncorrect := False;
+                ChooseFileInput := True;
+            End
+            Else If IsFileInput = NO Then
+            Begin
+                IsIncorrect := False;
+                ChooseFileInput := False;
+            End
+            Else
+            Begin
+                IsIncorrect := True;
+                WriteLn('Некорректный выбор!');
+            End;
+        End;
+    End;
+End;
+Function  CheckUserArea(Num, MIN, MAX: Integer) : Boolean;
+Var
+    IsCorrect: Boolean;
+Begin
+    If (Num < MIN) Or (Num > MAX) Then
+    Begin
+        Writeln('Значение не попадает в диапазон!');
+        IsCorrect := False;
+    End
+    Else
+        IsCorrect := True;
+    CheckUserArea := IsCorrect;
+End;
+Function ReadUserN(Num: Integer; MIN, MAX: Integer) : Integer;
+Var
+    IsCorrect: Boolean;
+Begin
+    Repeat
+        Write('Введите порядок матрицы N[', MIN, '; ', MAX, ']: ');
+        Try
+            Readln(Num);
+            IsCorrect := True;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+            IsCorrect := False;
+        End;
+        If IsCorrect Then
+            IsCorrect := CheckUserArea(Num, MIN, MAX);
+    Until IsCorrect;
+    ReadUserN := Num;
+End;
+Function ReadUserMatrix(Num: Integer; Row, Col, MIN, MAX: Integer) : Integer;
+Var
+    IsCorrect: Boolean;
+Begin
+    Repeat
+        Write('Введите в ', (Row + 1), ' строке ', (Col + 1), ' столбце элемент[', MIN, '; ', MAX,  ']: ');
+        Try
+            Readln(Num);
+            IsCorrect := True;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+            IsCorrect := False;
+        End;
+        If IsCorrect Then
+            IsCorrect := CheckUserArea(Num, MIN, MAX);
+    Until IsCorrect;
+    ReadUserMatrix := Num;
+End;
+Function ReadPathToFile() : String;
+Var
+    IsIncorrect: Boolean;
+    PathToFile: String;
+Begin
+    IsIncorrect := True;
+    While IsIncorrect Do
+    Begin
+        Write('Введите путь к файлу с расширением .txt с матрицей, у которой разряд не должен превышать ', MAX_N, ', а её элементы должны лежать в пределе[', MIN_MAT, ': ', MAX_MAT,']: ');
+        ReadLn(PathToFile);
+        If ExtractFileExt(PathToFile) = '.txt' Then
+            IsIncorrect := False
+        Else
+            WriteLn('Расширение файла не .txt!');
+    End;
+    ReadPathToFile := PathToFile;
+End;
+Function IsExists(PathToFile: String) : Boolean;
+Var
+    IsCorrect: Boolean;
+Begin
+    If FileExists(PathToFile) Then
+    Begin
+        IsCorrect := True;
+    End
+    Else
+        IsCorrect := False;
+    IsExists := IsCorrect;
+End;
+Function IsAbleToReading(Var F: TextFile) : Boolean;
+Var
+    IsCorrect: Boolean;
+Begin
+    Try
+        Reset(F);
+        IsCorrect := True;
+        CloseFile(F);
+    Except
+        IsCorrect := False;
+    End;
+    IsAbleToReading := IsCorrect;
+End;
+Function IsAbleToWriting(PathToFile: String) : Boolean;
+Var
+    IsCorrect: Boolean;
+Begin
+    If FileIsReadOnly(PathToFile) Then
+        IsCorrect := False
+    Else
+        IsCorrect := True;
+    IsAbleToWriting := IsCorrect
+End;
+Function IsEmpty(Var F: TextFile) : Boolean;
+Var
+    Buf: Char;
+    Size: Integer;
+    IsCorrect: Boolean;
+Begin
+    Reset(F);
+    Size := 0;
+    If Not EOF(F) Then
+    Begin
+        Read(F, Buf);
+        Size := 1;
+    End;
+    CloseFile(F);
+    If Size = 0 Then
+        IsCorrect := True
+    Else
+        IsCorrect := False;
+    IsEmpty := IsCorrect;
+End;
+Function ReadOrder(Var F: TextFile) : Integer;
+Var
+    Buf: Char;
+    IsCorrect: Boolean;
+    Order: Integer;
+Begin
+    IsCorrect := True;
+    Reset(F);
+    Try
+        Read(F, Order);
+    Except
+        Writeln('Неправильный порядок матрицы!');
+        IsCorrect := False;
+    End;
+    If IsCorrect Then
+    Begin
+        IsCorrect := CheckUserArea(Order, MIN_N, MAX_N);
+    End;
+    If IsCorrect Then
+    Begin
+        Readln(F, Buf);
+        If Buf <> #13 Then
+        Begin
+            IsCorrect := False;
+            Writeln('Неправильный порядок матрицы!');
+        End;
+    End;
+    CloseFile(F);
+    If Not IsCorrect Then
+        Order := -1;
+    ReadOrder := Order;
+End;
+Function IsRightNums(Var F: TextFile) : Boolean;
+Var
+    K: Integer;
+    IsCorrect: Boolean;
+Begin
+    Reset(F);
+    Readln(F);
+    IsCorrect := True;
+    While IsCorrect And Not EOF(F) Do
+    Begin
+        While IsCorrect And Not EOLN(F) Do
+        Begin
+            Try
+                Read(F, K);
+            Except
+                IsCorrect := False;
+                WriteLn('Некорректный тип данных внутри файла!');
+            End;
+            If IsCorrect Then
+                IsCorrect := CheckUserArea(K, MIN_MAT, MAX_MAT);
+        End;
+        ReadLn(F);
+    End;
+    CloseFile(F);
+    IsRightNums := IsCorrect;
+End;
+Function IsOrdersEqual(Var F: TextFile; Order: Integer) : Boolean;
+Var
+    Rows, Cols, K: Integer;
+    IsCorrect: Boolean;
+Begin
+    Rows := 0;
+    Reset(F);
+    Readln(F);
+    IsCorrect := True;
+    While IsCorrect And Not EOF(F) Do
+    Begin
+      Cols := 0;
+      While IsCorrect And Not EOLN(F) Do
+      Begin
+          Read(F, K);
+          Inc(Cols);
+          IsCorrect := CheckUserArea(Cols, MIN_N, MAX_N);
+      End;
+      If IsCorrect Then
+      Begin
+          Readln(F);
+          Inc(Rows);
+          CheckUserArea(Rows, MIN_N, MAX_N);
+          If Cols <> Order Then
+              IsCorrect := False;
+      End;
+    End;
+    CloseFile(F);
+    If IsCorrect And (Not Rows = Order) Then
+        IsCorrect := False;
+    IsOrdersEqual := IsCorrect;
+End;
+Function ReadFileMatrix(Var F: TextFile; Order: Integer) : TMatrix;
+Var
+    IsCorrect: Boolean;
+    Matrix: TMatrix;
+    Row, Col: Integer;
+Begin
+    IsCorrect := True;
+    Row := 0;
+    Col := 0;
+    SetLength(Matrix, Order, Order);
+    Reset(F);
+    Readln(F);
+    While IsCorrect And (Row < Order) Do
+    Begin
+        While IsCorrect And (Col < Order) Do
+        Begin
+            Read(F, Matrix[Row][Col]);
+            Inc(Col);
+        End;
+        Readln(F);
+        Col := 0;
+        Inc(Row);
+    End;
+    CloseFile(F);
+    ReadFileMatrix := Matrix;
+End;
+Function ReadFile(Var F: TextFile) : TMatrix;
+Var
+    IsCorrect: Boolean;
+    PathToFile: String;
+    Order: Integer;
+    Matrix: TMatrix;
+Begin
+    IsCorrect := True;
+    Repeat
+        PathToFile := ReadPathToFile();
+        AssignFile(F, PathToFile);
+        If Not IsExists(PathToFile) Then
+        Begin
+            IsCorrect := False;
+            Writeln('Проверьте корректность ввода пути к файлу!');
+        End;
+        If IsCorrect And Not IsAbleToReading(F) Then
+        Begin
+            IsCorrect := False;
+            Writeln('Файл закрыт для чтения!');
+        End;
+        If IsCorrect And Not IsAbleToWriting(PathToFile) Then
+        Begin
+            IsCorrect := False;
+            WriteLn('Файл закрыт для записи!');
+        End;
+        If IsCorrect And IsEmpty(F) Then
+        Begin
+            IsCorrect := False;
+            WriteLn('Файл пуст!');
+        End;
+        If IsCorrect Then
+        Begin
+            Order := ReadOrder(F);
+            If Order = -1 Then
+                IsCorrect := False;
+        End;
+        If IsCorrect And Not IsRightNums(F) Then
+            IsCorrect := False;
+        If IsCorrect And Not IsOrdersEqual(F, Order) Then
+        Begin
+            IsCorrect := False;
+            Writeln('Значения порядков не равны!');
+        End;
+        If IsCorrect Then
+            Matrix := ReadFileMatrix(F, Order);
+    Until IsCorrect;
+    ReadFile := Matrix;
+End;
+Procedure AddAnswerToFile(Var F: TextFile; CountCorrectRows: Integer);
+Begin
+    Append(F);
+    WriteLn(F);
+    WriteLn(F, 'Количество строк, имеющих перестановки элементов от 1 до порядка матрицы: ', CountCorrectRows);
+    CloseFile(F);
+End;
+Function ReadConsole() : TMatrix;
+Var
+    Row, Col, N: Integer;
+    Matrix: TMatrix;
+Begin
+    N := ReadUserN(N, MIN_N, MAX_N);
+    SetLength(Matrix, N, N);
+    For Row := Low(Matrix) To High(Matrix) Do
+    Begin
+        For Col := Low(Matrix) To High(Matrix) Do
+        Begin
+            Matrix[Row][Col] := ReadUserMatrix(Matrix[Row][Col], Row, Col, MIN_MAT, MAX_MAT);
+        End;
+    End;
+    ReadConsole := Matrix;
+End;
+Function Sort(Matrix: TMatrix) : TMatrix;
+Var
+    Row, I, J, PreviousMaxIndex, Buf: Integer;
+Begin
+    PreviousMaxIndex := High(Matrix) - 1;
+    For Row := Low(Matrix) To High(Matrix) Do
+    Begin
+        For I := Low(Matrix) To High(Matrix) Do
+        Begin
+            For J := Low(Matrix) To PreviousMaxIndex - I Do
+            Begin
+                If Matrix[Row][J] > Matrix[Row][J + 1] Then
+                Begin
+                    Buf := Matrix[Row][J];
+                    Matrix[Row][J] := Matrix[Row][J + 1];
+                    Matrix[Row][J + 1] := Buf;
+                End;
+            End;
+        End;
+    End;
+    Sort := Matrix;
+End;
+Function CalcCorrectRows(Matrix: TMatrix) : Integer;
+Var
+    Count, I, Row: Integer;
+    IsCorrect: Boolean;
+Begin
+    IsCorrect := True;
+    Count := 0;
+    For Row := Low(Matrix) To High(Matrix) Do
+    Begin
+        I := 0;
+        While (IsCorrect) And (I <= High(Matrix)) Do
+        Begin
+            If (Matrix[Row][I] <> I + 1) Then
+                IsCorrect := False;
+            Inc(I);
+        End;
+        If IsCorrect Then
+            Inc(Count);
+        IsCorrect := True;
+    End;
+    CalcCorrectRows := Count;
+End;
+Procedure FreeMemory(Matrix: TMatrix);
+Begin
+    Matrix := Nil;
+End;
+Function GetResultFromFile() : Integer;
+Var
+    F: TextFile;
+    Matrix: TMatrix;
+    CountCorrectRows: Integer;
+Begin
+    Matrix := ReadFile(F);
+    Matrix := Sort(Matrix);
+    CountCorrectRows := CalcCorrectRows(Matrix);
+    FreeMemory(Matrix);
+    AddAnswerToFile(F, CountCorrectRows);
+    GetResultFromFile := CountCorrectRows;
+End;
+Function GetResultFromConsole() : Integer;
+Var
+    Matrix: TMatrix;
+    CountCorrectRows: Integer;
+Begin
+    Matrix := ReadConsole();
+    Matrix := Sort(Matrix);
+    CountCorrectRows := CalcCorrectRows(Matrix);
+    FreeMemory(Matrix);
+    GetResultFromConsole := CountCorrectRows;
+End;
+Procedure PrintResult(Count: Integer);
+Begin
+    WriteLn;
+    WriteLn('Количество строк, имеющих перестановки элементов от 1 до N: ', Count);
+End;
+Var
+    CountCorrectRows: Integer;
+Begin
+    PrintTask();
+    If ChooseFileInput() Then
+        CountCorrectRows := GetResultFromFile()
+    Else
+        CountCorrectRows := GetResultFromConsole();
+    PrintResult(CountCorrectRows);
+    Readln;
+End.

@@ -1,0 +1,34 @@
+unit AddUnit;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls;
+
+type
+  TAddForm = class(TForm)
+    NameLabel: TLabel;
+    NameEdit: TEdit;
+    AuthorLabel: TLabel;
+    AuthorEdit: TEdit;
+    DirectorLabel: TLabel;
+    DirectorEdit: TEdit;
+    DateLabel: TLabel;
+    TimeLabel: TLabel;
+    DatePicker: TDateTimePicker;
+    TimePicker: TDateTimePicker;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  AddForm: TAddForm;
+
+implementation
+
+{$R *.dfm}
+
+end.

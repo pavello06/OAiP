@@ -1,0 +1,80 @@
+Unit AddUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls;
+
+Type
+    TAddForm = Class(TForm)
+
+    NameLabel: TLabel;
+    NameEdit: TEdit;
+    AuthorLabel: TLabel;
+    AuthorEdit: TEdit;
+    DirectorLabel: TLabel;
+    DirectorEdit: TEdit;
+    DateLabel: TLabel;
+    DatePicker: TDateTimePicker;
+    TimeLabel: TLabel;
+    TimePicker: TDateTimePicker;
+    OkButton: TButton;
+    CancelButton: TButton;
+
+    Function IsFullFields(Sender: TObject) : Boolean;
+
+    procedure OkButtonClick(Sender: TObject);
+    procedure CloseButtonClick(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    AddForm: TAddForm;
+
+Implementation
+
+{$R *.dfm}
+
+Uses MainUnit;
+
+Function TAddForm.IsFullFields(Sender: TObject) : Boolean;
+Begin
+    IsFullFields := (NameEdit.Text <> '') And (AuthorEdit.Text <> '') And (DirectorEdit.Text <> '') And (TimeToStr(TimePicker.Time) <> '') And (DateToStr(DatePicker.Date) <> '');
+End;
+
+
+
+Procedure TAddForm.OkButtonClick(Sender: TObject);
+Var
+    Row: Integer;
+Begin
+    If IsFullFields(Sender) Then
+    Begin
+        Row := MainForm.ShowsStringGrid.RowCount;
+        If Row < 7 Then
+            MainForm.ShowsStringGrid.Height := MainForm.ShowsStringGrid.Height + MainForm.ShowsStringGrid.DefaultRowHeight + 2
+        Else
+            MainForm.ShowsStringGrid.Width := MainForm.ShowsStringGrid.Width + 20;
+        MainForm.ShowsStringGrid.RowCount := MainForm.ShowsStringGrid.RowCount + 1;
+        MainForm.ShowsStringGrid.Cells[0, Row] := '"' + NameEdit.Text + '"';
+        MainForm.ShowsStringGrid.Cells[1, Row] := AuthorEdit.Text;
+        MainForm.ShowsStringGrid.Cells[2, Row] := DirectorEdit.Text;
+        MainForm.ShowsStringGrid.Cells[3, Row] := FormatDateTime('HH:mm', 0);
+        MainForm.ShowsStringGrid.Cells[4, Row] := DateToStr(DatePicker.Date);
+        Close;
+    End
+    Else
+        Application.MessageBox('Не все поля заполнены!', 'Ошибка', MB_OK + MB_ICONERROR);
+End;
+
+Procedure TAddForm.CloseButtonClick(Sender: TObject);
+Begin
+    Close;
+End;
+
+End.

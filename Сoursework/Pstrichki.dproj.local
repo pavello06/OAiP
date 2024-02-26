@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.332,=C:\БГУИР\ОАИП\Курсач\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.705,=C:\БГУИР\ОАИП\Курсач\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.219,C:\БГУИР\ОАИП\Курсач\PlayUnit.dfm=C:\БГУИР\ОАИП\Курсач\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.219,C:\БГУИР\ОАИП\Курсач\PlayUnit.pas=C:\БГУИР\ОАИП\Курсач\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.630,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\StartUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.161,C:\БГУИР\ОАИП\Курсач\RuleUnit.pas=C:\БГУИР\ОАИП\Курсач\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.208,C:\БГУИР\ОАИП\Курсач\Pstrichki.dproj=C:\БГУИР\ОАИП\Курсач\Haircuts.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.021,=C:\БГУИР\ОАИП\Курсач\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.958,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\StartUnit.pas=C:\БГУИР\ОАИП\Курсач\StartUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.186,C:\БГУИР\ОАИП\Курсач\SettingsUnit.dfm=C:\БГУИР\ОАИП\Курсач\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.844,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\БГУИР\ОАИП\Курсач\Haircuts.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.958,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\StartUnit.dfm=C:\БГУИР\ОАИП\Курсач\StartUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.630,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\StartUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.975,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.186,C:\БГУИР\ОАИП\Курсач\SettingsUnit.pas=C:\БГУИР\ОАИП\Курсач\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.161,C:\БГУИР\ОАИП\Курсач\RuleUnit.dfm=C:\БГУИР\ОАИП\Курсач\Unit1.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

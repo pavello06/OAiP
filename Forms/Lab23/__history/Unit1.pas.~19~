@@ -1,0 +1,515 @@
+unit Unit1;
+
+interface
+
+uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtDlgs, Vcl.StdCtrls, Unit2, Unit3, Clipbrd,
+    Vcl.Grids;
+
+type
+    TMatrix = Array Of Array Of Integer;
+    TNormGrid = Class(TStringGrid);
+    TMainForm = class(TForm)
+        Tabs: TMainMenu;
+        FileTab: TMenuItem;
+        OpenOption: TMenuItem;
+        SaveOption: TMenuItem;
+        SepLine: TMenuItem;
+        ExitOption: TMenuItem;
+        InstructionTab: TMenuItem;
+        DeveloperTab: TMenuItem;
+        OpenFile: TOpenTextFileDialog;
+        SaveFile: TSaveTextFileDialog;
+        TaskLabel: TLabel;
+        MatrixOrderLabel: TLabel;
+        MatrixOrderComboBox: TComboBox;
+        MatrixLabel: TLabel;
+        MatrixStringGrid: TStringGrid;
+        ResultButton: TButton;
+        ResultLabel: TLabel;
+        ResultEdit: TEdit;
+
+        Procedure InstructionTabOnClick(Sender: TObject);
+        Procedure DeveloperTabOnClick(Sender: TObject);
+
+        Procedure MatrixOrderOnChange(Sender: TObject);
+
+        Procedure MatrixStringGridOnKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+        Procedure MatrixStringGridOnKeyPress(Sender: TObject; Var Key: Char);
+        Procedure MatrixStringGridOnKeyUp(Sender: TObject; Var Key: Word; Shift: TShiftState);
+        Procedure MatrixOnSetEditText(Sender: TObject; ACol, ARow: Integer; Const Value: String);
+
+        Procedure ResultButtonOnClick(Sender: TObject);
+        Procedure ResultEditOnChange(Sender: TObject);
+
+        Procedure WriteFileData(Sender: TObject; StreamWriter: TStreamWriter);
+        Procedure SaveOptionOnClick(Sender: TObject);
+
+        Procedure ExitOptionOnClick(Sender: TObject);
+        Procedure ExitOnCloseQuery(Sender: TObject; Var CanClose: Boolean);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+Const
+    DIGITS = ['0'..'9'];
+    DIGITS_WITHOUT_ZERO = ['1'..'9'];
+    ALPHABET = ['A'..'Z', 'a'..'z'];
+    ENTER = #13;
+    BACKSPACE = #8;
+    NONE = #0;
+    IN_MATRIX_ORDER = 1;
+    MAX_MATRIX_ORDER = 10;
+    MIN_MATRIX_EL = -10000;
+    MAX_MATRIX_EL = 10000;
+  
+var
+    MainForm: TMainForm;
+    CtrlPressed: Boolean;
+    IsSaved: Boolean = True;
+    PerformCloseQuery: Boolean = True;
+
+implementation
+
+{$R *.dfm}
+
+Procedure TMainForm.InstructionTabOnClick(Sender: TObject);
+Var
+    InstructionForm: TInstructionForm;
+Begin
+    InstructionForm := TInstructionForm.Create(Self);
+    InstructionForm.Icon := MainForm.Icon;
+    InstructionForm.ShowModal;
+    InstructionForm.Free;
+End;
+
+Procedure TMainForm.DeveloperTabOnClick(Sender: TObject);
+Var
+    DeveloperForm: TDeveloperForm;
+Begin
+    DeveloperForm := TDeveloperForm.Create(Self);
+    DeveloperForm.Icon := MainForm.Icon;
+    DeveloperForm.ShowModal;
+    DeveloperForm.Free;
+End;
+
+
+Function IsValidRange(Str: String; Const MIN, MAX: Integer) : Boolean;
+Var
+    Num: Integer;
+    IsValidInput: Boolean;
+Begin
+    Num := StrToInt(Str);
+    IsValidInput := False;
+    If (Num > MIN) And (Num < MAX) Then
+        IsValidInput := True;
+    IsValidRange := IsValidInput;
+End;
+
+
+Procedure MatrixClear(MatrixStringGrid: TStringGrid);
+Var
+    Row, Col: Integer;
+Begin
+    For Row := 0 To MatrixStringGrid.RowCount - 1 Do
+        For Col := 0 To MatrixStringGrid.ColCount - 1 Do
+            MatrixStringGrid.Cells[Col, Row] := '';
+End;
+
+Procedure DrawMatrix(MatrixLabel: TLabel; MatrixOrderComboBox: TComboBox; MatrixStringGrid: TStringGrid);
+Var
+    MatrixOrder, I: Integer;
+Begin
+    If MatrixOrderComboBox.Text = '' Then
+    Begin
+        MatrixLabel.Visible := False;
+        MatrixLabel.Enabled := False;
+        MatrixStringGrid.Visible := False;
+        MatrixStringGrid.Enabled := False;
+    End
+    Else
+    Begin
+        MatrixLabel.Visible := True;
+        MatrixLabel.Enabled := True;
+        MatrixStringGrid.Visible := True;
+        MatrixStringGrid.Enabled := True;
+        MatrixOrder := StrToInt(MatrixOrderComboBox.Text);
+        MatrixStringGrid.RowCount := MatrixOrder + 1;
+        MatrixStringGrid.ColCount := MatrixOrder + 1;
+        MatrixStringGrid.Cells[0, 0] := '     \';
+        For I := 1 To MatrixOrder Do
+        Begin
+            MatrixStringGrid.Cells[I, 0] := IntToStr(I);
+            MatrixStringGrid.Cells[0, I] := IntToStr(I);
+        End;
+        If MatrixOrder > 5 Then
+        Begin
+            MatrixStringGrid.Width := 510;
+            MatrixStringGrid.Height := 235;
+        End
+        Else
+        Begin
+            MatrixStringGrid.Width := MatrixStringGrid.ColCount * 83 - MatrixOrder - 1;
+            MatrixStringGrid.Height := MatrixStringGrid.RowCount * 36;
+        End;
+    End;
+
+End;
+
+procedure TMainForm.MatrixOrderOnChange(Sender: TObject);
+begin
+    MatrixClear(MatrixStringGrid);
+    DrawMatrix(MatrixLabel, MatrixOrderComboBox, MatrixStringGrid);
+end;
+
+
+Function CheckFields(MatrixOrderComboBox: TComboBox; MatrixStringGrid: TStringGrid) : Boolean;
+Var
+    Row, Col: Integer;
+    IsFull: Boolean;
+Begin
+    IsFull := True;
+    If MatrixOrderComboBox.Text = '' Then
+        IsFull := False;
+    Row := 1;
+    While IsFull And (Row < MatrixStringGrid.RowCount) Do
+    Begin
+        Col := 1;
+        While IsFull And (Col < MatrixStringGrid.ColCount) Do
+        Begin
+            If (MatrixStringGrid.Cells[Col, Row] = '') Or (MatrixStringGrid.Cells[Col, Row] = '-') Then
+                IsFull := False;
+            Inc(Col);
+        End;
+        Inc(Row);
+    End;
+    CheckFields := IsFull;
+End;
+
+
+Function IsBufferCorrect() : Boolean;
+Var
+    Num: Integer;
+Begin
+    IsBufferCorrect := Clipboard.HasFormat(CF_TEXT) And (Length(ClipBoard.AsText) <> 0) And (TryStrToInt(Clipboard.AsText, Num) Or (Clipboard.AsText = '-'));
+End;
+
+Function IsValidNum(Text: String; SelStart, SelLength: Integer; Key: Char) : Boolean;
+Var
+    Num: Integer;
+    IsValidInput: Boolean;
+Begin
+    IsValidInput := True;
+    If (SelStart = 0) Then
+    Begin
+        If (SelLength > 0) Then
+        Begin
+            If SelLength <> Length(Text) Then
+            Begin    
+                If (Key = '-') And (Text[SelLength + 1] = '0') Then
+                    IsValidInput := False
+                Else If (Key = '0') Then
+                    IsValidInput := False
+            End;
+            If Not (CharInSet(Key, DIGITS) Or (Key = '-')) Then
+                IsValidInput := False;
+        End
+        Else If (Pos('-', Text) = 1) Then
+            IsValidInput := False
+        Else If (Pos('0', Text) = 1) And Not CharInSet(Key, DIGITS_WITHOUT_ZERO) Then
+            IsValidInput := False
+        Else If (Length(Text) > 0) And (Key = '0') Then
+            IsValidInput := False
+        Else If Not (CharInSet(Key, DIGITS) Or (Key = '-')) Then
+            IsValidInput := False;
+    End
+    Else If (SelStart = 1) Then
+    Begin
+        If (SelLength > 0) Then
+        Begin   
+            If (Key = '0') And (Text[1] = '-') Then
+                IsValidInput := False;
+            If Not CharInSet(Key, DIGITS) Then
+                IsValidInput := False;
+        End;
+        If (Pos('0', Text) = 1) Then
+            IsValidInput := False
+        Else If (Pos('-', Text) = 1) And ((Key = '0') Or (Key = '-')) Then
+            IsValidInput := False
+        Else If Not CharInSet(Key, DIGITS) Then
+            IsValidInput := False;
+    End
+    Else If Not CharInSet(Key, DIGITS) Then
+        IsValidInput := False;
+    If IsValidInput And TryStrToInt(Copy(Text, 1, SelStart) + Key + Copy(Text, SelStart + SelLength + 1), Num) Then
+        IsValidInput := IsValidRange(Copy(Text, 1, SelStart) + Key + Copy(Text, SelStart + SelLength + 1), MIN_MATRIX_EL, MAX_MATRIX_EL);
+    IsValidNum := IsValidInput;
+End;
+
+Function IsPossiblePaste(Text: String; SelStart, SelLength: Integer; Const MIN, MAX: Integer) : Boolean;
+Begin
+    IsPossiblePaste := IsBufferCorrect() And IsValidNum(Text, SelStart, SelLength, ClipBoard.AsText[1]);
+End;
+
+procedure TMainForm.MatrixStringGridOnKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+Var
+    StringGrid: TNormGrid;
+    Text: String;
+    SelStart, SelLength: Integer;
+begin
+    StringGrid := TNormGrid(Sender);
+    If Assigned(StringGrid.InplaceEditor) Then
+    Begin
+        Text := MatrixStringGrid.Cells[MatrixStringGrid.Col, MatrixStringGrid.Row];
+        SelStart := StringGrid.InplaceEditor.SelStart;
+        SelLength := StringGrid.InplaceEditor.SelLength;
+        case Key of
+            VK_LEFT:
+            begin
+                if (StringGrid.Col > 0) And (SelStart = 0) then
+                    StringGrid.Col := StringGrid.Col - 1;
+            end;
+            VK_RIGHT:
+            begin
+                if (StringGrid.Col < StringGrid.ColCount - 1) And (SelStart = Length(Text)) then
+                    StringGrid.Col := StringGrid.Col + 1;
+            end;
+        end;
+        If (Shift = [ssCtrl]) And (UpperCase(Chr(Key)) = 'X') Then
+        Begin
+            If ((SelLength = 0) And (SelStart = 1) And (Length(Text) > 1) And (Text[2] = '0')) Or
+               ((SelLength = 0) And (SelStart = 2) And (Length(Text) > 2) And (Text[1] = '-') And (Text[3] = '0')) Or
+               ((SelLength > 0) And (SelLength <> Length(Text)) And (SelStart = 0) And (Text[SelLength + 1] = '0')) Or
+               ((SelLength > 0) And (SelLength <> Length(Text)) And (SelStart = 1) And (Length(Text) > 2) And (Text[SelLength + 1] = '0')) Then
+                Key := Ord(NONE)
+        End
+        Else If (Chr(Key) = ENTER) And (Length(Text) <> 0) And CheckFields(MatrixOrderComboBox, MatrixStringGrid) Then
+            ResultButtonOnClick(Sender)
+        Else If Key = VK_DELETE Then
+            Key := Ord(NONE)
+        Else If (Shift = [ssCtrl]) And (UpperCase(Chr(Key)) = 'V') Or (Shift = [ssShift]) And (Key = VK_INSERT) Then
+        Begin
+            If Not IsPossiblePaste(Text, SelStart, SelLength, MIN_MATRIX_EL, MAX_MATRIX_EL) Then
+                Key := Ord(NONE)
+    End;
+    End;
+    If (Shift = [ssCtrl]) And CharInSet(Chr(Key), ALPHABET) Then
+        CtrlPressed := True;
+end;
+
+procedure TMainForm.MatrixStringGridOnKeyPress(Sender: TObject; var Key: Char);
+Var
+    StringGrid: TNormGrid;
+    Text: String;
+    SelStart, SelLength: Integer;
+    Num: Integer;
+    IsValidInput: Boolean;
+begin
+    StringGrid := TNormGrid(Sender);
+    If Assigned(StringGrid.InplaceEditor) Then
+    Begin
+        Text := MatrixStringGrid.Cells[MatrixStringGrid.Col, MatrixStringGrid.Row];
+        SelStart := StringGrid.InplaceEditor.SelStart;
+        SelLength := StringGrid.InplaceEditor.SelLength;
+        IsValidInput := True;
+        If Key = BACKSPACE Then
+        Begin
+            If ((SelLength = 0) And (SelStart = 1) And (Length(Text) > 1) And (Text[2] = '0')) Or
+               ((SelLength = 0) And (SelStart = 2) And (Length(Text) > 2) And (Text[1] = '-') And (Text[3] = '0')) Or
+               ((SelLength > 0) And (SelLength <> Length(Text)) And (SelStart = 0) And (Text[SelLength + 1] = '0')) Or
+               ((SelLength > 0) And (SelLength <> Length(Text)) And (SelStart = 1) And (Length(Text) > 2) And (Text[SelLength + 1] = '0')) Then
+                IsValidInput := False;
+        End
+        Else If (Key <> ENTER) And Not CtrlPressed Then
+        Begin
+            IsValidInput := IsValidNum(Text, SelStart, SelLength, Key);
+        End;
+        If Not IsValidInput Then
+            Key := NONE;
+    End;
+End;
+
+procedure TMainForm.MatrixStringGridOnKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+begin
+    If (Shift = [ssCtrl]) Then
+        CtrlPressed := False;
+end;
+
+procedure TMainForm.MatrixOnSetEditText(Sender: TObject; ACol, ARow: Integer; const Value: string);
+begin
+    ResultEdit.Text := '';
+    If CheckFields(MatrixOrderComboBox, MatrixStringGrid) Then
+    Begin
+        ResultButton.Enabled := True;
+    End
+    Else
+        ResultButton.Enabled := False;
+end;
+
+
+Procedure CopyMatrix(MatrixStringGrid: TStringGrid; Var Matrix: TMatrix);
+Var
+    Row, Col: Integer;
+Begin
+    SetLength(Matrix, MatrixStringGrid.RowCount - 1, MatrixStringGrid.ColCount - 1);
+    For Row := 0 To High(Matrix) Do
+        For Col := 0 To High(Matrix[Row]) Do
+            Matrix[Row][Col] := StrToInt(MatrixStringGrid.Cells[Col + 1, Row + 1]);
+End;
+
+Procedure SortMatrix(Matrix: TMatrix);
+Var
+    Row, K, Col, PreviousMaxIndex, Buf: Integer;
+Begin
+    PreviousMaxIndex := High(Matrix) - 1;
+    For Row := 0 To High(Matrix) Do
+        For K := 0 To High(Matrix) Do
+            For Col := 0 To PreviousMaxIndex - K Do
+                If Matrix[Row][Col] > Matrix[Row][Col + 1] Then
+                Begin
+                    Buf := Matrix[Row][Col];
+                    Matrix[Row][Col] := Matrix[Row][Col + 1];
+                    Matrix[Row][Col + 1] := Buf;
+                End;
+End;
+
+Function CalcCorrectRows(Matrix: TMatrix) : Integer;
+Var
+    Amount, I, Row: Integer;
+    IsCorrect: Boolean;
+Begin
+    Amount := 0;
+    For Row := 0 To High(Matrix) Do
+    Begin
+        IsCorrect := True;
+        I := 0;
+        While (IsCorrect) And (I <= High(Matrix)) Do
+        Begin
+            If (Matrix[Row][I] <> I + 1) Then
+                IsCorrect := False;
+            Inc(I);
+        End;
+        If IsCorrect Then
+            Inc(Amount);
+    End;
+    CalcCorrectRows := Amount;
+End;
+
+procedure TMainForm.ResultButtonOnClick(Sender: TObject);
+Var
+    Matrix: TMatrix;
+    AmountOfCorrectRows: Integer;
+begin
+    CopyMatrix(MatrixStringGrid, Matrix);
+    SortMatrix(Matrix);
+    AmountOfCorrectRows := CalcCorrectRows(Matrix);
+    ResultEdit.Text := IntToStr(AmountOfCorrectRows);
+end;
+
+procedure TMainForm.ResultEditOnChange(Sender: TObject);
+begin
+    If ResultEdit.Text = '' Then
+    Begin
+        IsSaved := True;
+        SaveOption.Enabled := False;
+        ResultEdit.Enabled := False;
+    End
+    Else
+    Begin
+        IsSaved := False;
+        SaveOption.Enabled := True;
+        ResultEdit.Enabled := True;
+    End;
+end;
+
+
+
+
+
+
+Procedure TMainForm.WriteFileData(Sender: TObject; StreamWriter: TStreamWriter);
+Begin
+    //something
+End;
+
+Procedure TMainForm.SaveOptionOnClick(Sender: TObject);
+Var
+    StreamWriter: TStreamWriter;
+Begin
+    If SaveFile.Execute Then
+    Begin
+        StreamWriter := TStreamWriter.Create(SaveFile.FileName, False, TEncoding.UTF8);
+        WriteFileData(Sender, StreamWriter);
+        StreamWriter.Free;
+        IsSaved := True;
+    End;
+End;
+
+
+Procedure TMainForm.ExitOptionOnClick(Sender: TObject);
+Var
+    Confirmation: Integer;
+Begin
+    PerformCloseQuery := False;
+    If IsSaved Then
+    Begin
+        Confirmation := Application.MessageBox('Вы действительно хотите выйти?', 'Выход', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2);
+        If Confirmation = IDYES Then
+            Close;
+    End
+    Else
+    Begin
+        Confirmation := Application.MessageBox('Вы не сохранили файл, хотите ли сохранить?', 'Выход', MB_YESNOCANCEl + MB_ICONQUESTION + MB_DEFBUTTON2);
+        Case Confirmation Of
+            mrYes:
+            Begin
+                SaveOptionOnClick(Sender);
+                If IsSaved Then
+                    Close
+                Else
+                    ExitOptionOnClick(Sender);
+            End;
+            mrNo:
+                Close;
+        End;
+    End;
+    PerformCloseQuery := True;
+End;
+
+Procedure TMainForm.ExitOnCloseQuery(Sender: TObject; Var CanClose: Boolean);
+Var
+    Confirmation: Integer;
+Begin
+    If PerformCloseQuery Then
+    Begin
+        If IsSaved Then
+        Begin
+            Confirmation := Application.MessageBox('Вы действительно хотите выйти?', 'Выход', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2);
+            CanClose := Confirmation = IDYES;
+        End
+        Else
+        Begin
+            Confirmation := Application.MessageBox('Вы не сохранили файл, хотите ли сохранить?', 'Выход', MB_YESNOCANCEl + MB_ICONQUESTION + MB_DEFBUTTON2);
+            Case Confirmation Of
+                mrYes:
+                Begin
+                    SaveOptionOnClick(Sender);
+                    If IsSaved Then
+                        CanClose := True
+                    Else
+                        ExitOnCloseQuery(Sender, CanClose);
+                End;
+                mrNo:
+                    CanClose := True;
+                mrCancel:
+                    CanClose := False;
+            End;
+        End;
+    End;
+End;
+
+end.

@@ -1,0 +1,105 @@
+Unit SearchUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls;
+
+Type
+    TSearchForm = Class(TForm)
+
+    SearchLabel: TLabel;
+    SearchDateTimePicker: TDateTimePicker;
+
+    SearchButton: TButton;
+    CancelButton: TButton;
+
+    Procedure SearchFormKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+
+    Procedure ComponentKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+
+    Procedure SearchButtonClick(Sender: TObject);
+    Procedure CloseButtonClick(Sender: TObject);
+    procedure SearchFormCreate(Sender: TObject);
+
+    Private
+      { Private declarations }
+    Public
+      { Public declarations }
+    End;
+
+Var
+  SearchForm: TSearchForm;
+
+Implementation
+
+{$R *.dfm}
+
+Uses MainUnit;
+
+Procedure TSearchForm.SearchFormCreate(Sender: TObject);
+Begin
+    SearchDateTimePicker.DateTime := Now;
+End;
+
+Procedure TSearchForm.SearchFormKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Begin
+    If Key = VK_ESCAPE Then
+        Close;
+End;
+
+
+
+Procedure TSearchForm.ComponentKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Const
+    ENTER = Ord(#13);
+Begin
+    If Key = VK_UP Then
+        SelectNext(TWinControl(Sender), False, True)
+    Else If Key = VK_DOWN Then
+        SelectNext(TWinControl(Sender), True, True)
+    Else If (Key = ENTER) Then
+        SearchButtonClick(SearchButton);
+End;
+
+
+
+Procedure TSearchForm.SearchButtonClick(Sender: TObject);
+Var
+    I, ClosestDateIndex: Integer;
+    MinDifference, Difference: Double;
+    FoundDateAfter: Boolean;
+Begin
+    FoundDateAfter := False;
+    ClosestDateIndex := 0;
+    MinDifference := MaxInt;
+    For I := 1 To High(ShowsArr) Do
+    Begin
+        Difference := ShowsArr[I].Date - SearchDateTimePicker.Date + ShowsArr[I].Time - SearchDateTimePicker.Time;
+        If Difference >= 0 Then
+        Begin
+            If Difference < MinDifference Then
+            Begin
+              MinDifference := Difference;
+              ClosestDateIndex := I;
+              FoundDateAfter := True;
+            End;
+        End;
+    End;
+    If FoundDateAfter Then
+    Begin
+        MainForm.ShowsStringGrid.Row := ClosestDateIndex;
+        Close;
+    End
+    Else
+        Application.MessageBox('Увы ближайших спектаклей не предвидится!', 'Сорри', MB_OK + MB_ICONHAND);
+End;
+
+Procedure TSearchForm.CloseButtonClick(Sender: TObject);
+Begin
+    Close;
+End;
+
+
+End.                    

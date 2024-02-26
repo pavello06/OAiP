@@ -1,0 +1,59 @@
+Unit AddUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls;
+
+Type
+    TAddForm = Class(TForm)
+
+    NameLabel: TLabel;
+    NameEdit: TEdit;
+    AuthorLabel: TLabel;
+    AuthorEdit: TEdit;
+    DirectorLabel: TLabel;
+    DirectorEdit: TEdit;
+    DateLabel: TLabel;
+    DatePicker: TDateTimePicker;
+    TimeLabel: TLabel;
+    TimePicker: TDateTimePicker;
+
+    AddButton: TButton;
+    CancelButton: TButton;
+    procedure CloseButtonClick(Sender: TObject);
+    procedure AddButtonClick(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    AddForm: TAddForm;
+
+Implementation
+
+{$R *.dfm}
+
+Uses MainUnit;
+
+Procedure TAddForm.AddButtonClick(Sender: TObject);
+Begin
+    ShowsStringGrid.RowCount := ShowsStringGrid.RowCount + 1;
+    MainForm.ShowsStringGrid.Cells[0, ShowsStringGrid.RowCount - 1] := NameEdit.Text;
+    MainForm.ShowsStringGrid.Cells[1, ShowsStringGrid.RowCount - 1] := AuthorEdit.Text;
+    MainForm.ShowsStringGrid.Cells[2, ShowsStringGrid.RowCount - 1] := Directordit.Text;
+    MainForm.ShowsStringGrid.Cells[3, ShowsStringGrid.RowCount - 1] := DatePicker.Date;
+    MainForm.ShowsStringGrid.Cells[4, ShowsStringGrid.RowCount - 1] := TimePicker.Time;
+    Close;
+End;
+
+Procedure TAddForm.CloseButtonClick(Sender: TObject);
+Begin
+    Close;
+End;
+
+End.

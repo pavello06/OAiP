@@ -1,0 +1,109 @@
+Program Project4;
+
+Uses
+  System.SysUtils;
+
+Var
+    Check: String;
+    I, L: Integer;
+    X0, Xn, X, H, Y, A, B, C: Real;
+    ArrX, ArrY: Array of Real;
+
+Begin
+    Writeln('Данная программа считает значение функции Y = A*X^2 + B*X + C, от X0 до Xn с шагом H.');
+    Writeln;
+
+    While (True) Do
+    Begin
+        Try
+            Write('Введите значение X0: ');
+            Readln(Check);
+            X0 := StrToFloat(Check);
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+    While (True) Do
+    Begin
+        Try
+            Write('Введите значение Xn (значение Xn должно быть больше чем X0): ');
+            Readln(Check);
+            Xn := StrToFloat(Check);
+            If (X0 >= Xn) Then
+            Begin
+                Writeln('Значение Xn должно быть больше чем X0!');
+                Continue;
+            End;
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+    While (True) Do
+    Begin
+        Try
+            Write('Введите шаг H: ');
+            Readln(Check);
+            H := StrToFloat(Check);
+            If (H <= 0) Then
+            Begin
+                Writeln('Значение H должен быть больше нуля!');
+                Continue;
+            End;
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+    While (True) Do
+    Begin
+        Try
+            Write('Введите коэффициент A: ');
+            Readln(Check);
+            A := StrToFloat(Check);
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+    While (True) Do
+    Begin
+        Try
+            Write('Введите коэффициент B: ');
+            Readln(Check);
+            B := StrToFloat(Check);
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+    While (True) Do
+    Begin
+        Try
+            Write('Введите коэффициент C: ');
+            Readln(Check);
+            C := StrToFloat(Check);
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+
+    L := Round((Xn - X0) / H);
+    Setlength(ArrX, L);
+    Setlength(ArrY, L);
+
+    X := X0;
+
+    For I := Low(ArrX) To High(ArrX) Do
+    Begin
+      Y := A*X*X + B*X + C;
+      ArrX[I] := X;
+      ArrY[I] := Y;
+      Writeln('X: ', ArrX[I], '; Y: ', ArrY[I]);
+      X := X + H;
+    End;
+
+    Readln;
+End.

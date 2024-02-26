@@ -1,0 +1,18 @@
+program ApplicationLab11;
+
+uses
+  Vcl.Forms,
+  Unit1 in 'Unit1.pas' {Lab11},
+  Unit2 in 'Unit2.pas' {Instruction},
+  Unit3 in 'Unit3.pas' {Developer};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TLab11, Lab11);
+  Application.CreateForm(TInstruction, Instruction);
+  Application.CreateForm(TDeveloper, Developer);
+  Application.Run;
+end.

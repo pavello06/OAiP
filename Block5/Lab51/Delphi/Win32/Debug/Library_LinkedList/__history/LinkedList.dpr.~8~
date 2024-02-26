@@ -1,0 +1,85 @@
+Library LinkedList;
+
+{$R *.res}
+
+uses
+  Vcl.Grids;
+
+Const
+    MAX_LENGTH = 13;
+
+Type
+    TLimitedString = String[MAX_LENGTH];
+
+    TLinkedList = ^TNode;
+    TNode = Record
+        Data: TLimitedString;
+        Next: TLinkedList;
+    End;
+
+Var
+    List, Head: TLinkedList;
+
+Procedure Make();
+Begin
+    New(Head);
+    Head.Next := Nil;
+End;
+
+Procedure Add(Data: TLimitedString);
+Begin
+    List := Head;
+    While List.Next <> Nil Do
+        List := List.Next;
+    New(List.Next);
+    List := List.Next;
+    List.Data := Data;
+    List.Next := Nil;
+End;
+
+Procedure Remove(Number: Integer);
+Var
+    I: Integer;
+Begin
+    List := Head;
+    For I := 1 To Number - 1 Do
+        List := List.Next;
+    List.Next := List.Next.Next;
+End;
+
+Procedure Reverse();
+Var
+    PreviousNode, CurrentNode, NextNode: TLinkedList;
+Begin
+    List := Head.Next;
+    PreviousNode := Nil;
+    CurrentNode := List;
+    While CurrentNode <> Nil Do
+    Begin
+        NextNode := CurrentNode^.Next;
+        CurrentNode^.Next := PreviousNode;
+        PreviousNode := CurrentNode;
+        CurrentNode := NextNode;
+    End;
+    Head.Next := PreviousNode;
+End;
+
+Procedure WriteLinkedList(StringGrid: TStringGrid);
+Var
+    I: Integer;
+Begin
+    List := Head.Next;
+    I := 1;
+    While List <> Nil Do
+    Begin
+        StringGrid.Cells[0, I] := String(List.Data);
+        List := List.Next;
+        Inc(I);
+    End;
+End;
+
+Exports
+    Make, Add, Remove, Reverse, WriteLinkedList;
+
+Begin
+End.

@@ -1,0 +1,35 @@
+Unit DeveloperUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+Type
+    TDeveloperForm = Class(TForm)
+        DeveloperMemo: TMemo;
+
+        Procedure DeveloperFormKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    DeveloperForm: TDeveloperForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TDeveloperForm.DeveloperFormKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Begin
+    If Key = VK_ESCAPE Then
+        Close;
+End;
+
+End.

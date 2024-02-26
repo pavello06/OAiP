@@ -1,0 +1,39 @@
+Unit Application_Lab11;
+
+Interface
+
+Uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus;
+
+Type
+  TLab11 = Class(TForm)
+    Tabs: TMainMenu;
+    FileActions: TMenuItem;
+    Open: TMenuItem;
+    Save: TMenuItem;
+    Exit: TMenuItem;
+    Instuction: TMenuItem;
+    Developer: TMenuItem;
+    CloseMenu: TPopupMenu;
+    Procedure FormCloseQuery(Sender: TObject; Var CanClose: Boolean);
+  Private
+    { Private declarations }
+  Public
+    { Public declarations }
+  End;
+
+Var
+  Lab11: TLab11;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TLab11.FormCloseQuery(Sender: TObject; Var CanClose: Boolean);
+Begin
+    CloseMenu.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+End;
+
+
+End.

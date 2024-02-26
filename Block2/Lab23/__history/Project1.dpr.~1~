@@ -1,0 +1,15 @@
+program Project1;
+
+uses
+  System.SysUtils;
+
+Var
+  f: TextFile;
+  K: String;
+begin
+    AssignFile(f, 'input.txt');
+    reset(f);
+    readln(f, k);
+    writeln(k);
+    readln;
+end.

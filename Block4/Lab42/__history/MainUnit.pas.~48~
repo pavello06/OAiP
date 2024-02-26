@@ -1,0 +1,677 @@
+Unit MainUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Grids, Vcl.Menus, InstructionUnit, DeveloperUnit,
+    Vcl.ExtDlgs, Clipbrd;
+
+Type
+    ERRORS_CODE = (CORRECT,
+                   INCORRECT_NUM,
+                   INCORRECT_NUMS_COUNT,
+                   INCORRECT_RANGE,
+                   INCORRECT_LINES_COUNT);
+    TGrid = Class(TStringGrid);
+    TArr = Array Of Integer;
+
+    TMainForm = Class(TForm)
+
+    TabsMainMenu: TMainMenu;
+    FileMenuItem: TMenuItem;
+    OpenMenuItem: TMenuItem;
+    SaveMenuItem: TMenuItem;
+    SeparatorMenuItem: TMenuItem;
+    ExitMenuItem: TMenuItem;
+    InstructionMenuItem: TMenuItem;
+    DeveloperMenuItem: TMenuItem;
+
+    TaskLabel: TLabel;
+    NumsCountLabel: TLabel;
+    NumsCountEdit: TEdit;
+    NumsLabel: TLabel;
+    NumsStringGrid: TStringGrid;
+    ResultButton: TButton;
+    ResultStringGrid: TStringGrid;
+
+    OpenTextFileDialog1: TOpenTextFileDialog;
+    SaveTextFileDialog1: TSaveTextFileDialog;
+
+    Function MainFormHelp(Command: Word; Data: NativeInt; Var CallHelp: Boolean): Boolean;
+
+    Procedure InstructionMenuItemClick(Sender: TObject);
+    Procedure DeveloperMenuItemClick(Sender: TObject);
+
+    Procedure OpenMenuItemClick(Sender: TObject);
+
+    Function IsFullFields() : Boolean;
+
+    Procedure ComponentChange();
+    Procedure ComponentKeyPress(Var Key: Char; SelStart, SelLength: Integer; Text: String; Const MIN, MAX: Integer);
+
+    Procedure NumsCountEditChange(Sender: TObject);
+    procedure NumsCountEditContextPopup(Sender: TObject; MousePos: TPoint; var Handled: Boolean);
+    Procedure NumsCountEditKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+    Procedure NumsCountEditKeyPress(Sender: TObject; Var Key: Char);
+    Procedure NumsCountEditKeyUp(Sender: TObject; Var Key: Word; Shift: TShiftState);
+
+    Procedure NumsStringGridKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+    Procedure NumsStringGridKeyPress(Sender: TObject; Var Key: Char);
+    Procedure NumsStringGridKeyUp(Sender: TObject; Var Key: Word; Shift: TShiftState);
+    Procedure NumsStringGridSelectCell(Sender: TObject; ACol, ARow: Integer; Var CanSelect: Boolean);
+    Procedure NumsStringGridSetEditText(Sender: TObject; ACol, ARow: Integer; Const Value: String);
+
+    Procedure ResultButtonClick(Sender: TObject);
+
+    Procedure SaveMenuItemClick(Sender: TObject);
+
+    Procedure ExitMenuItemClick(Sender: TObject);
+    Procedure MainFormCloseQuery(Sender: TObject; Var CanClose: Boolean);
+
+    Private
+      { Private declarations }
+    Public
+      { Public declarations }
+    End;
+
+Const
+    ENTER = #13;
+    BACKSPACE = #8;
+    VOID = #0;
+    ALPHABET = ['A'..'Z', 'a'..'z'];
+    DIGITS = ['0'..'9'];
+    DIGITS_WITHOUT_ZERO = ['1'..'9'];
+    ERRORS: Array [ERRORS_CODE] Of String = ( '',
+                                              'Неправильное число в файле!',
+                                              'Неправильное число элементов в последовательности',
+                                              'Неправильный диапазон!',
+                                              'Неправильное число строк в файле!');
+Var
+    MainForm: TMainForm;
+    CtrlPressed: Boolean = False;
+    IsSaved: Boolean = True;
+
+Implementation
+
+{$R *.dfm}
+
+Function TMainForm.MainFormHelp(Command: Word; Data: NativeInt; Var CallHelp: Boolean): Boolean;
+Begin
+    CallHelp := False;
+    MainFormHelp := False;
+End;
+
+
+
+Procedure TMainForm.InstructionMenuItemClick(Sender: TObject);
+Var
+    InstructionForm: TInstructionForm;
+Begin
+    InstructionForm := TInstructionForm.Create(Self);
+    InstructionForm.Icon := MainForm.Icon;
+    InstructionForm.ShowModal;
+    InstructionForm.Free;
+End;
+
+Procedure TMainForm.DeveloperMenuItemClick(Sender: TObject);
+Var
+    DeveloperForm: TDeveloperForm;
+Begin
+    DeveloperForm := TDeveloperForm.Create(Self);
+    DeveloperForm.Icon := MainForm.Icon;
+    DeveloperForm.ShowModal;
+    DeveloperForm.Free;
+End;
+
+
+
+Function IsValidRange(Num: Integer; Const MIN, MAX: Integer) : Boolean;
+Begin
+    IsValidRange := (Num >= MIN) And (Num <= MAX);
+End;
+
+
+
+Function ReadFileNum(Var F: TextFile; Var Num: Integer; Const MIN, MAX: Integer) : ERRORS_CODE;
+Var
+    Error: ERRORS_CODE;
+Begin
+    Error := CORRECT;
+    Try
+        Read(F, Num);
+    Except
+        Error := INCORRECT_NUM;
+    End;
+    If (Error = CORRECT) And Not IsValidRange(Num, MIN, MAX) Then
+        Error := INCORRECT_RANGE;
+    ReadFileNum := Error;
+End;
+
+Function ReadFileData(NumsCountEdit: TEdit; NumsStringGrid: TStringGrid; Var F: TextFile) : ERRORS_CODE;
+Const
+    MIN_NUM_COUNT = 1;
+    MAX_NUM_COUNT = 10;
+    MIN_NUM = 1;
+    MAX_NUM = 10000;
+Var
+    Error: ERRORS_CODE;
+    Num, NumsCount, Col: Integer;
+Begin
+    Reset(F);
+    Error := ReadFileNum(F, Num, MIN_NUM_COUNT, MAX_NUM_COUNT);
+    If (Error = CORRECT) And Not EOLN(F) Then
+        Error := INCORRECT_NUM;
+    NumsCount := 0;
+    If Error = CORRECT Then
+    Begin
+        NumsCountEdit.Text := IntToStr(Num);
+        NumsCount := Num;
+        ReadLn(F);
+    End;
+    Col := 0;
+    While (Error = CORRECT) And Not EOF(F) Do
+    Begin
+        If Col < NumsCount Then
+        Begin
+            Error := ReadFileNum(F, Num, MIN_NUM, MAX_NUM);
+            If Error = CORRECT Then
+                NumsStringGrid.Cells[Col, 1] := IntToStr(Num);
+        End
+        Else
+            Error := INCORRECT_NUMS_COUNT;
+        Inc(Col);
+    End;
+    If (Error = CORRECT) And (Col <> NumsCount) Then
+        Error := INCORRECT_NUMS_COUNT;
+    If (Error = CORRECT) And Not EOF(F) Then
+        Error := INCORRECT_LINES_COUNT;
+    CloseFile(F);
+    ReadFileData := Error;
+End;
+
+Procedure TMainForm.OpenMenuItemClick(Sender: TObject);
+Var
+    Error: ERRORS_CODE;
+    F: TextFile;
+Begin
+    If OpenTextFileDialog1.Execute Then
+    Begin
+        AssignFile(F, OpenTextFileDialog1.FileName);
+        Error := ReadFileData(NumsCountEdit, NumsStringGrid, F);
+        If Error <> CORRECT Then
+        Begin
+            NumsCountEdit.Text := '';
+            Application.MessageBox(PWideChar(ERRORS[Error]), 'Ошибка', MB_OK Or MB_ICONERROR);
+        End;
+    End;
+End;
+
+
+
+Procedure ClearStringGrid(StringGrid: TStringGrid);
+Var
+    Row, Col: Integer;
+Begin
+    For Row := 0 To StringGrid.RowCount - 1 Do
+        For Col := 0 To StringGrid.ColCount - 1 Do
+            StringGrid.Cells[Col, Row] := '';
+    StringGrid.Enabled := False;
+    StringGrid.Visible := False;
+End;
+
+
+
+Function TMainForm.IsFullFields() : Boolean;
+Const
+    NumsRow = 1;
+Var
+    IsFull: Boolean;
+    Col: Integer;
+Begin
+    IsFull := NumsCountEdit.Text <> '';
+    Col := 0;
+    While IsFull And (Col < NumsStringGrid.ColCount) Do
+    Begin
+        If (NumsStringGrid.Cells[Col, NumsRow] = '') Then
+            IsFull := False;
+        Inc(Col);
+    End;
+    IsFullFields := IsFull;
+End;
+
+Function IsPossiblePaste(SelStart, SelLength: Integer; Text: String; Const MIN, MAX: Integer) : Boolean;
+Var
+    Num: Integer;
+Begin
+    IsPossiblePaste := Clipboard.HasFormat(CF_TEXT) And (Length(ClipBoard.AsText) <> 0) And
+                       TryStrToInt(Copy(Text, 1, SelStart) + ClipBoard.AsText + Copy(Text, SelStart + SelLength + 1), Num) And
+                       ((SelStart = 0) And (ClipBoard.AsText[1] <> '0') Or (SelStart > 0)) And
+                       IsValidRange(StrToInt(Copy(Text, 1, SelStart) + ClipBoard.AsText + Copy(Text, SelStart + SelLength + 1)), MIN, MAX);
+End;
+
+Function IsValidChar(SelStart: Integer; Key: Char) : Boolean;
+Begin
+    IsValidChar := (SelStart = 0) And CharInSet(Key, DIGITS_WITHOUT_ZERO) Or (SelStart > 0) And CharInSet(Key, DIGITS);
+End;
+
+Procedure DrawNumsStringGrid(NumsCountEdit: TEdit; NumsStringGrid: TStringGrid);
+Const
+    FixedRow = 0;
+Var
+    I: Integer;
+Begin
+    NumsStringGrid.ColCount := StrToInt(NumsCountEdit.Text);
+    For I := 0 To NumsStringGrid.ColCount - 1 Do
+        NumsStringGrid.Cells[I, FixedRow] := IntToStr(I + 1);
+    If NumsStringGrid.ColCount > 5 Then
+    Begin
+        NumsStringGrid.ScrollBars := ssHorizontal;
+        NumsStringGrid.Width := 5 * NumsStringGrid.DefaultColWidth + 9;
+        NumsStringGrid.Height := 102;
+    End
+    Else
+    Begin
+        NumsStringGrid.ScrollBars := ssNone;
+        NumsStringGrid.Width := NumsStringGrid.ColCount * (NumsStringGrid.DefaultColWidth + 1) + 4;
+        NumsStringGrid.Height := 82;
+    End;
+    NumsStringGrid.Enabled := True;
+    NumsStringGrid.Visible := True;
+End;
+
+Procedure DeleteText(NumsStringGrid: TStringGrid);
+Const
+    MIN_NUM = 1;
+    MAX_NUM = 10000;
+Var
+    Num: Integer;
+Begin
+    If Not (TryStrToInt(NumsStringGrid.Cells[NumsStringGrid.Col, NumsStringGrid.Row], Num) And (NumsStringGrid.Cells[NumsStringGrid.Col, NumsStringGrid.Row][1] <> '0') And IsValidRange(StrToInt(NumsStringGrid.Cells[NumsStringGrid.Col, NumsStringGrid.Row]), MIN_NUM, MAX_NUM)) Then
+        NumsStringGrid.Cells[NumsStringGrid.Col, NumsStringGrid.Row] := '';
+End;
+
+Function HasSame(NumsStringGrid: TStringGrid) : Boolean;
+Const
+    NumsRow = 1;
+Var
+    Col: Integer;
+    IsSame: Boolean;
+Begin
+    IsSame := False;
+    If NumsStringGrid.Cells[NumsStringGrid.Col, NumsRow] <> '' Then
+        Repeat
+            If (Col <> NumsStringGrid.Col) And (NumsStringGrid.Cells[NumsStringGrid.Col, NumsRow] = NumsStringGrid.Cells[Col, NumsRow]) Then
+                IsSame := True;
+            Inc(Col);
+        Until IsSame Or (Col >= NumsStringGrid.ColCount);
+    HasSame := IsSame;
+End;
+
+Procedure DeleteSame(NumsStringGrid: TStringGrid);
+Const
+    NumsRow = 1;
+Var
+    ColI, ColJ: Integer;
+    IsSame: Boolean;
+Begin
+    IsSame := True;
+    ColI := 0;
+    Repeat
+        ColJ := ColI + 1;
+        Repeat
+            If (NumsStringGrid.Cells[ColI, NumsRow] = NumsStringGrid.Cells[ColJ, NumsRow]) And (NumsStringGrid.Cells[ColI, NumsRow] <> '') Then
+            Begin
+                IsSame := True;
+                NumsStringGrid.Cells[ColJ, NumsRow] := '';
+                Application.MessageBox('Натуральные числа должны быть различными!', 'Ошибка', MB_OK Or MB_ICONERROR);
+            End;
+            Inc(ColJ);
+        Until IsSame Or (ColJ >= NumsStringGrid.ColCount);
+        Inc(ColI);
+    Until IsSame Or (ColI >= NumsStringGrid.ColCount);
+End;
+
+
+
+Procedure TMainForm.ComponentChange();
+Begin
+    If ResultStringGrid.Cells[0, 0] <> '' Then
+        ClearStringGrid(ResultStringGrid);
+    IsSaved := True;
+    SaveMenuItem.Enabled := False;
+End;
+
+Procedure ComponentKeyDown(Var Key: Word; Shift: TShiftState; SelStart, SelLength: Integer; Text: String; Const MIN, MAX: Integer);
+Begin
+    If (Shift = [ssCtrl]) And (UpCase(Chr(Key)) = 'X') Then
+    Begin
+        If (SelLength = 0) And (SelStart = 1) And (Length(Text) > 1) And (Text[2] = '0') Or
+           (SelLength > 0) And (SelStart = 0) And (SelLength <> Length(Text)) And (Text[SelLength + 1] = '0') Then
+            Key := Ord(VOID);
+    End
+    Else If Key = VK_DELETE Then
+    Begin
+        If (SelLength = 0) And (SelStart = 0) And (Length(Text) > 1) And (Text[2] = '0') Or
+           (SelLength > 0) And (SelStart = 0) And (SelLength <> Length(Text)) And (Text[SelLength + 1] = '0') Then
+            Key := Ord(VOID);
+    End
+    Else If (Shift = [ssCtrl]) And (UpCase(Chr(Key)) = 'V') Or (Shift = [ssShift]) And (Key = VK_INSERT) Then
+    Begin
+        If Not IsPossiblePaste(SelStart, SelLength, Text, MIN, MAX) Then
+            Key := Ord(VOID);
+    End;
+    If (Shift = [ssCtrl]) And CharInSet(Chr(Key), ALPHABET) Then
+        CtrlPressed := True;
+End;
+
+Procedure TMainForm.ComponentKeyPress(Var Key: Char; SelStart, SelLength: Integer; Text: String; Const MIN, MAX: Integer);
+Begin
+    If Key = BACKSPACE Then
+    Begin
+       If (SelLength = 0) And (SelStart = 1) And (Length(Text) > 1) And (Text[2] = '0') Or
+          (SelLength > 0) And (SelStart = 0) And (SelLength <> Length(Text)) And (Text[SelLength + 1] = '0') Then
+           Key := VOID;
+    End
+    Else If Key = ENTER Then
+    Begin
+        If IsFullFields() Then
+            ResultButtonClick(ResultButton);
+    End
+    Else If Not CtrlPressed Then
+    Begin
+        If Not (IsValidChar(SelStart, Key) And IsValidRange(StrToInt(Copy(Text, 1, SelStart) + Key + Copy(Text, SelStart + SelLength + 1)), MIN, MAX)) Then
+            Key := VOID;
+    End;
+End;
+
+Procedure ComponentKeyUp();
+Begin
+    CtrlPressed := False;
+End;
+
+
+ 
+Procedure TMainForm.NumsCountEditChange(Sender: TObject);
+Begin
+    ClearStringGrid(NumsStringGrid);
+    If NumsCountEdit.Text = '' Then
+    Begin
+        NumsLabel.Enabled := False;
+        NumsLabel.Visible := False;
+    End
+    Else
+    Begin
+        NumsLabel.Enabled := True;
+        NumsLabel.Visible := True;
+        DrawNumsStringGrid(NumsCountEdit, NumsStringGrid);
+    End;
+    ComponentChange();
+End;
+
+procedure TMainForm.NumsCountEditContextPopup(Sender: TObject; MousePos: TPoint; Var Handled: Boolean);
+Const
+    MIN_NUM_COUNT = 1;
+    MAX_NUM_COUNT = 10;
+Begin
+    If Not IsPossiblePaste(NumsCountEdit.SelStart, NumsCountEdit.SelLength, NumsCountEdit.Text, MIN_NUM_COUNT, MAX_NUM_COUNT) Or
+       (NumsCountEdit.SelLength = 0) And (NumsCountEdit.SelStart = 1) And (Length(NumsCountEdit.Text) > 1) And (NumsCountEdit.Text[2] = '0') Or
+       (NumsCountEdit.SelLength > 0) And (NumsCountEdit.SelStart = 0) And (NumsCountEdit.SelLength <> Length(NumsCountEdit.Text)) And (NumsCountEdit.Text[NumsCountEdit.SelLength + 1] = '0') Then
+        Handled := True;
+End;
+
+Procedure TMainForm.NumsCountEditKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Const
+    MIN_NUM_COUNT = 1;
+    MAX_NUM_COUNT = 10;
+Begin
+    ComponentKeyDown(Key, Shift, NumsCountEdit.SelStart, NumsCountEdit.SelLength, NumsCountEdit.Text, MIN_NUM_COUNT, MAX_NUM_COUNT);
+End;
+
+Procedure TMainForm.NumsCountEditKeyPress(Sender: TObject; Var Key: Char);
+Const
+    MIN_NUM_COUNT = 1;
+    MAX_NUM_COUNT = 10;
+Begin
+    ComponentKeyPress(Key, NumsCountEdit.SelStart, NumsCountEdit.SelLength, NumsCountEdit.Text, MIN_NUM_COUNT, MAX_NUM_COUNT);
+End;
+
+Procedure TMainForm.NumsCountEditKeyUp(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Begin
+    ComponentKeyUp();
+End;
+
+
+
+Procedure TMainForm.NumsStringGridKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Const
+    MIN_NUM = 1;
+    MAX_NUM = 10000;
+Var
+    NumsGrid: TGrid;
+    SelStart, SelLength, Num: Integer;
+    Text: String;
+Begin
+    NumsGrid := TGrid(Sender);
+    If Assigned(NumsGrid.InplaceEditor) Then
+    Begin
+        SelStart := NumsGrid.InplaceEditor.SelStart;
+        SelLength := NumsGrid.InplaceEditor.SelLength;
+        Text := NumsGrid.InplaceEditor.Text;
+        DeleteText(NumsStringGrid);
+        ComponentKeyDown(Key, Shift, SelStart, SelLength, Text, MIN_NUM, MAX_NUM);
+    End;
+End;
+
+Procedure TMainForm.NumsStringGridKeyPress(Sender: TObject; Var Key: Char);
+Const
+    MIN_NUM = 1;
+    MAX_NUM = 10000;
+Var
+    NumsGrid: TGrid;
+    SelStart, SelLength, Num: Integer;
+    Text: String;
+Begin
+    NumsGrid := TGrid(Sender);
+    If Assigned(NumsGrid.InplaceEditor) Then
+    Begin
+        SelStart := NumsGrid.InplaceEditor.SelStart;
+        SelLength := NumsGrid.InplaceEditor.SelLength;
+        Text := NumsGrid.InplaceEditor.Text;
+        DeleteText(NumsStringGrid);
+        ComponentKeyPress(Key, SelStart, SelLength, Text, MIN_NUM, MAX_NUM);
+    End;
+End;
+
+Procedure TMainForm.NumsStringGridKeyUp(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Begin
+    ComponentKeyUp();
+End;
+
+Procedure TMainForm.NumsStringGridSelectCell(Sender: TObject; ACol, ARow: Integer; Var CanSelect: Boolean);
+Begin
+    DeleteSame(NumsStringGrid);
+End;
+
+Procedure TMainForm.NumsStringGridSetEditText(Sender: TObject; ACol, ARow: Integer; Const Value: String);
+Const
+    MIN_NUM = 1;
+    MAX_NUM = 10000;
+Var
+    Num: Integer;
+Begin
+    DeleteText(NumsStringGrid);
+    ResultButton.Enabled := IsFullFields() And Not HasSame(NumsStringGrid);
+    ComponentChange();
+End;
+
+
+
+Procedure MakeArray(NumsStringGrid: TStringGrid; Var Nums: TArr);
+Const 
+    NumsRow = 1;
+Var
+    I: Integer;
+Begin
+    SetLength(Nums, NumsStringGrid.ColCount);
+    For I := 0 To High(Nums) Do
+        Nums[I] := StrToInt(NumsStringGrid.Cells[I, NumsRow]);
+End;
+
+Function Factorial(N: Integer) : Integer;
+Var
+    I, NFactorial: Integer;
+Begin
+    NFactorial := 1;
+    For I := 1 To N Do
+        NFactorial := NFactorial * I;
+    Factorial := NFactorial;
+End;
+
+Procedure DrawResultStringGrid(ResultStringGrid: TStringGrid; ColCount: Integer);
+Var
+    I: Integer;
+Begin
+    ResultStringGrid.ColCount := ColCount;
+    ResultStringGrid.RowCount := Factorial(ColCount) + 1;
+    For I := 0 To ResultStringGrid.ColCount - 1 Do
+        ResultStringGrid.Cells[I, 0] := IntToStr(I + 1);
+    ResultStringGrid.ScrollBars := ssNone;
+    ResultStringGrid.Width := 0;
+    ResultStringGrid.Height := 0;
+    If ResultStringGrid.ColCount > 5 Then
+    Begin
+        ResultStringGrid.ScrollBars := ssHorizontal;
+        ResultStringGrid.Width := 5 * ResultStringGrid.DefaultColWidth + 12;
+        ResultStringGrid.Height := 20;
+    End
+    Else
+        ResultStringGrid.Width := ResultStringGrid.ColCount * (ResultStringGrid.DefaultColWidth + 2) + 2;
+    If ResultStringGrid.RowCount > 3 Then
+    Begin
+        ResultStringGrid.ScrollBars := ssVertical;
+        ResultStringGrid.Height := ResultStringGrid.Height + 3 * ResultStringGrid.DefaultRowHeight + 8;
+        ResultStringGrid.Width := ResultStringGrid.Width + 20;
+    End
+    Else
+        ResultStringGrid.Height := ResultStringGrid.RowCount * (ResultStringGrid.DefaultRowHeight + 2) + 2;
+    If (ResultStringGrid.ColCount > 5) And (ResultStringGrid.RowCount > 3) Then
+        ResultStringGrid.ScrollBars := ssBoth;
+    ResultStringGrid.Enabled := True;
+    ResultStringGrid.Visible := True;
+End;
+
+Procedure SwapNums(Var Num1, Num2: Integer);
+Var
+    Temp: Integer;
+Begin
+    Temp := Num1;
+    Num1 := Num2;
+    Num2 := Temp;
+End;
+
+Procedure WriteFormData(ResultStringGrid: TStringGrid; Nums: TArr; Var PrintingRow: Integer);
+Var
+    I: Integer;
+Begin
+    For I := 0 To High(Nums) Do
+        ResultStringGrid.Cells[I, PrintingRow] := IntToStr(Nums[I]);
+    Inc(PrintingRow);
+End;
+
+Procedure MakePermutations(ResultStringGrid: TStringGrid; Nums: TArr; StartIndex: Integer; Var PrintingRow: Integer);
+Var
+    I: Integer;
+Begin
+    If StartIndex = High(Nums) Then
+        WriteFormData(ResultStringGrid, Nums, PrintingRow)
+    Else
+        For I := StartIndex To High(Nums) Do
+        Begin
+            SwapNums(Nums[I], Nums[StartIndex]);
+            MakePermutations(ResultStringGrid, Nums, StartIndex + 1, PrintingRow);
+            SwapNums(Nums[I], Nums[StartIndex]);
+        End;
+End;
+
+
+
+Procedure TMainForm.ResultButtonClick(Sender: TObject);
+Var
+    Nums: TArr;
+    PrintingRow: Integer;
+Begin
+    MakeArray(NumsStringGrid, Nums);
+    DrawResultStringGrid(ResultStringGrid, NumsStringGrid.ColCount);
+    PrintingRow := 1;
+    MakePermutations(ResultStringGrid, Nums, 0, PrintingRow);
+    IsSaved := False;
+    SaveMenuItem.Enabled := True;
+End;
+
+
+
+Procedure WriteFileData(ResultStringGrid: TStringGrid; Var F: TextFile);
+Var
+    Row, Col: Integer;
+Begin
+    ReWrite(F);
+    WriteLn(F, 'Перестановки:');
+    For Row := 1 To ResultStringGrid.RowCount - 1 Do
+    Begin
+        For Col := 0 To ResultStringGrid.ColCount - 1 Do
+            Write(F, ResultStringGrid.Cells[Col, Row], ' ');
+        WriteLn(F);
+    End;
+    CloseFile(F);
+End;
+
+Procedure TMainForm.SaveMenuItemClick(Sender: TObject);
+Var
+    F: TextFile;
+Begin
+    If SaveTextFileDialog1.Execute Then
+    Begin
+        AssignFile(F, SaveTextFileDialog1.FileName);
+        WriteFileData(ResultStringGrid, F);
+        IsSaved := True;
+    End;
+End;
+
+
+
+Procedure TMainForm.ExitMenuItemClick(Sender: TObject);
+Begin
+    Close;
+End;
+
+Procedure TMainForm.MainFormCloseQuery(Sender: TObject; Var CanClose: Boolean);
+Var
+    Confirmation: Integer;
+Begin
+    If (Not IsSaved) Then
+    Begin
+        Confirmation := Application.MessageBox('Вы не сохранили файл, хотите ли сохранить?', 'Выход', MB_YESNOCANCEl + MB_ICONQUESTION + MB_DEFBUTTON2);
+        Case Confirmation Of
+            mrYes:
+            Begin
+                SaveMenuItemClick(Sender);
+                If IsSaved Then
+                    CanClose := True
+                Else
+                    MainFormCloseQuery(Sender, CanClose);
+            End;
+            mrNo:
+                CanClose := True;
+            mrCancel:
+                CanClose := False;
+        End;
+    End
+    Else
+    Begin
+        Confirmation := Application.MessageBox('Вы действительно хотите выйти?', 'Выход', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2);
+        CanClose := Confirmation = IDYES;
+    End;
+End;
+
+End.

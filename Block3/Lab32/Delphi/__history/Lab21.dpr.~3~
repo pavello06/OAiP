@@ -1,0 +1,12 @@
+Program Lab21;
+Uses
+    System.SysUtils;
+Var
+    A: Array Of Integer;
+    N, I: Integer;
+Const
+    MIN_N = 1;
+    MAX_N = 10000;
+Begin
+
+End.

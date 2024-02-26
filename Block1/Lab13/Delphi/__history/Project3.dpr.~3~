@@ -1,0 +1,76 @@
+Program Project3;
+
+Uses
+  System.SysUtils;
+
+Var
+    Check: String;
+    EPS, X, Num, Sin: Real;
+    I, N: Integer;
+
+Begin
+    Writeln('Данная программа считает значение функции f(x) = sin^2(x) для введённого значения X, а также подсчитывает количество чисел из ряда Маклорена больших EPS.');
+    Writeln;
+    While(True) Do
+    Begin
+        Try
+            Write('Введите EPS: ');
+            Readln(Check);
+            EPS := StrToFloat(Check);
+            If (EPS <= 0) Then
+            Begin
+                Writeln('EPS должен быть больше нуля!');
+                Continue;
+            End;
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+    While(True) Do
+    Begin
+        Try
+            Write('Введите X: ');
+            Readln(Check);
+            X := StrToFloat(Check);
+            Break;
+        Except
+            Writeln('Проверьте корректность ввода данных!');
+        End;
+    End;
+
+    Sin := 0;
+    N := 1;
+    Num := 1;
+
+    While (True) Do
+    Begin
+        For I := 1 To N - 1 Do
+            Num := Num * (-1);
+        For I := 1 To 2 * N - 1 Do
+            Num := Num * 2;
+        For I := 1 To 2 * N Do
+            Num := Num * X;
+        For I := 1 To 2 * N Do
+            Num := Num / I;
+
+        If (Num < 0) Then
+        Begin
+            If (-Num < EPS) Then
+                Break;
+        End
+        Else
+        Begin
+            If (Num < EPS) Then
+                Break;
+        End;
+
+        Sin := Sin + Num;
+        Num := 1;
+        N := N + 1;
+    End;
+
+    Writeln('Sin: ', Sin, '; N: ', N);
+
+    Readln;
+End.

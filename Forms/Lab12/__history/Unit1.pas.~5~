@@ -1,0 +1,428 @@
+unit Unit1;
+
+interface
+
+uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.StdCtrls, Unit2, Unit3, Clipbrd;
+
+Type
+    ERRORS_CODE = (CORRECT,
+                   INCORRECT_AMOUNT_LINES,
+                   IS_NOT_READABLE,
+                   IS_NOT_WRITEABLE);
+    TSAVE = (SAVE, UNSAVE);
+    TLab = Class(TForm)
+        Tabs: TMainMenu;
+        FileTab: TMenuItem;
+        InstructionTab: TMenuItem;
+        DeveloperTab: TMenuItem;
+        OpenOption: TMenuItem;
+        SaveOption: TMenuItem;
+        ExitOption: TMenuItem;
+        TaskLabel: TLabel;
+        OpenFile: TOpenDialog;
+        NLabel: TLabel;
+        NEdit: TEdit;
+        ResultLabel: TLabel;
+        ResultButton: TButton;
+        ResultEdit: TEdit;
+        Procedure InstructionTabOnClick(Sender: TObject);
+        Procedure DeveloperTabOnClick(Sender: TObject);
+        Procedure CheckControlButtons(Sender: TObject; CurrentEdit: TEdit; Var Key: Word);
+        Function ReadFileData(Sender: TObject; Var F: TextFile) : ERRORS_CODE;
+        Procedure OpenOptionOnClick(Sender: TObject);
+        Procedure NEditOnKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+        Procedure NOnContextPopup(Sender: TObject; MousePos: TPoint; Var Handled: Boolean);
+        Procedure NOnClick(Sender: TObject);
+        Procedure ResultEditOnChange(Sender: TObject);
+        Procedure WriteFileData(Var F: TextFile; Sender: TObject);
+        Procedure SaveOptionOnClick(Sender: TObject);
+        Procedure ExitOptionOnClick(Sender: TObject);
+        Procedure ExitOnCloseQuery(Sender: TObject; Var CanClose: Boolean);
+        procedure NOnChange(Sender: TObject);
+        procedure ResultButtonOnClick(Sender: TObject);
+    procedure NEditOnKeyPress(Sender: TObject; var Key: Char);
+    private
+        procedure WMPaste(var Msg: TMessage); message WM_PASTE;
+      { Private declarations }
+    public
+      { Public declarations }
+    end;
+
+Const
+    ERRORS: Array [ERRORS_CODE] Of String = ( '',
+                                              'Неправильное число строк в файле!',
+                                              'Файл закрыт для чтения!',
+                                              'Файл закрыт для записи!');
+    DIGITS_WITHOUT_ZERO = ['1'..'9'];
+    DIGITS = ['0'..'9'];
+    CONTROL = [VK_LEFT, VK_UP, VK_RIGHT, VK_DOWN];
+    ENTER = #13;
+    BACKSPACE = #8;
+    NONE = #0;
+var
+    Lab: TLab;
+
+implementation
+
+{$R *.dfm}
+
+Procedure TLab.InstructionTabOnClick(Sender: TObject);
+Var
+    InstructionForm: TInstructionForm;
+Begin
+    InstructionForm := TInstructionForm.Create(Self);
+    InstructionForm.Icon := Lab.Icon;
+    InstructionForm.ShowModal;
+    InstructionForm.Free;
+End;
+
+Procedure TLab.DeveloperTabOnClick(Sender: TObject);
+Var
+    DeveloperForm: TDeveloperForm;
+Begin
+    DeveloperForm := TDeveloperForm.Create(Self);
+    DeveloperForm.Icon := Lab.Icon;
+    DeveloperForm.ShowModal;
+    DeveloperForm.Free;
+End;
+
+Procedure TLab.CheckControlButtons(Sender: TObject; CurrentEdit: TEdit; Var Key: Word);
+Begin
+    If (Key = VK_LEFT) Or (Key = VK_UP) Then
+        SelectNext(CurrentEdit, False, True)
+    Else If (Key = VK_RIGHT) Or (Key = VK_DOWN) Then
+        SelectNext(CurrentEdit, True, True);
+End;
+
+Function IsValidRange(Str: String; Const MIN, MAX: Integer) : Boolean;
+Var
+    Num: Integer;
+    IsValidInput: Boolean;
+Begin
+    IsValidInput := True;
+    Num := StrToInt(Str);
+    If (Num < MIN) Or (Num > MAX) Then
+        IsValidInput := False;
+    IsValidRange := IsValidInput;
+End;
+
+
+Var
+    IsSaved: TSAVE = SAVE;
+
+
+
+Function IsReadable(Var F: TextFile) : ERRORS_CODE;
+Var
+    Error: ERRORS_CODE;
+Begin
+    Error := CORRECT;
+    Try
+        Try
+            Reset(F);
+        Finally
+            CloseFile(F);
+        End;
+    Except
+        Error := IS_NOT_READABLE;
+    End;
+    IsReadable := Error;
+End;
+
+Function TLab.ReadFileData(Sender: TObject; Var F: TextFile) : ERRORS_CODE;
+Var
+    Error: ERRORS_CODE;
+Begin
+    Reset(F);
+
+    CloseFile(F);
+    ReadFileData := Error;
+End;
+
+Procedure TLab.OpenOptionOnClick(Sender: TObject);
+Var
+    Error: ERRORS_CODE;
+    F: TextFile;
+    FileName: String;
+Begin
+    If OpenFile.Execute Then
+    Begin
+        FileName := OpenFile.FileName;
+        AssignFile(F, FileName);
+        Error := IsReadable(F);
+        If Error = CORRECT Then
+            Error := ReadFileData(Sender, F);
+        If Error <> CORRECT Then
+            Application.MessageBox(PWideChar(ERRORS[Error]), 'Ошибка', MB_OK Or MB_ICONINFORMATION);
+    End;
+End;
+
+
+Function IsBufferCorrect() : Boolean;
+Var
+    Num: Integer;
+Begin
+    IsBufferCorrect := Clipboard.HasFormat(CF_TEXT) And TryStrToInt(Clipboard.AsText, Num);
+End;
+
+Procedure TLab.NOnContextPopup(Sender: TObject; MousePos: TPoint; Var Handled: Boolean);
+Const
+    MIN_N = 1;
+    MAX_N = 100000;
+Begin
+    If Not IsBufferCorrect And IsValidRange(Text + ClipBoard.AsText, MIN_N, MAX_N) Then
+        Handled := True;
+End;
+
+Procedure TLab.NOnClick(Sender: TObject);
+Begin
+    If NEdit.SelStart <> Length(NEdit.Text) Then
+        NEdit.SelStart := Length(NEdit.Text);
+End;
+
+Function IsValidEditNum(Text: String; Key: Char) : Boolean;
+Var
+    IsValidInput: Boolean;
+Begin
+    IsValidInput := True;
+    If (Length(Text) = 0) And Not (Key In DIGITS_WITHOUT_ZERO) Then
+        IsValidInput := False
+    Else If Not (Key In DIGITS) Then
+        IsValidInput := False;
+    IsValidEditNum := IsValidInput;
+End;
+
+procedure TLab.WMPaste(var Msg: TMessage);
+Const
+    MIN_N = 1;
+    MAX_N = 100000;
+begin
+  // Получаем текст из буфера обмена
+
+  If IsBufferCorrect And IsValidRange(NEdit.Text + ClipBoard.AsText, MIN_N, MAX_N) Then
+    NEdit.Text := NEdit.Text + Clipboard.AsText;
+
+  // Отменяем стандартное действие вставки
+  // чтобы предотвратить дублирование текста
+  Msg.Result := 0;
+end;
+
+Procedure TLab.NEditOnKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Begin
+    If Key In CONTROL Then
+        CheckControlButtons(Sender, NEdit, Key)
+    Else If (Key = Ord(ENTER)) And (Length(NEdit.Text) <> 0) Then
+        ResultButtonOnClick(Sender)
+End;
+
+procedure TLab.NEditOnKeyPress(Sender: TObject; var Key: Char);
+Const
+    MIN_N = 1;
+    MAX_N = 100000;
+Var
+    Text: String;
+    IsValidInput: Boolean;
+begin
+    IsValidInput := True;
+    If (Key <> BACKSPACE) And (Key <> ENTER) Then
+    Begin
+        Text := NEdit.Text;
+        IsValidInput := IsValidEditNum(Text, Key);
+        If IsValidInput Then
+            IsValidInput := IsValidRange(Text + Key, MIN_N, MAX_N);
+    End;
+    If Not IsValidInput Then
+        Key := NONE;
+end;
+
+
+
+Procedure TLab.NOnChange(Sender: TObject);
+Begin
+    ResultEdit.Enabled := False;
+    ResultEdit.Text := '';
+    If Length(NEdit.Text) = 0 Then
+        ResultButton.Enabled := False
+    Else
+        ResultButton.Enabled := True;
+End;
+
+Function CalcCycleSum(N: Integer) : Integer;
+Var
+    CycleSum, I: Integer;
+Begin
+    CycleSum := 0;
+    For I := 1 To N Do
+        Inc(CycleSum, I);
+    CalcCycleSum := CycleSum;
+End;
+
+Function CalcRowSum(N: Integer) : Integer;
+Var
+    RowSum: Integer;
+Begin
+    RowSum := N * (N + 1) Div 2;
+    CalcRowSum := RowSum;
+End;
+
+Function CheckFormulaWorked(N: Integer) : Boolean;
+Var
+    CycleSum, RowSum: Integer;
+    IsFormulaWorked: Boolean;
+Begin
+    CycleSum := CalcCycleSum(N);
+    RowSum := CalcRowSum(N);
+    If CycleSum = RowSum Then
+        IsFormulaWorked := True
+    Else
+        IsFormulaWorked := False;
+    CheckFormulaWorked := IsFormulaWorked;
+End;
+
+Procedure TLab.ResultButtonOnClick(Sender: TObject);
+Var
+    N: Integer;
+Begin
+
+    N := StrToInt(NEdit.Text);
+    If CheckFormulaWorked(N) Then
+        ResultEdit.Text := 'Формула работает!'
+    Else
+        ResultEdit.Text := 'Формула не работает!';
+    ResultEdit.Enabled := True;
+End;
+
+Procedure TLab.ResultEditOnChange(Sender: TObject);
+Begin
+    If ResultEdit.Text = '' Then
+    Begin
+        IsSaved := SAVE;
+        SaveOption.Enabled := False;
+        ResultEdit.Enabled := False;
+    End
+    Else
+    Begin
+        IsSaved := UNSAVE;
+        SaveOption.Enabled := True;
+        ResultEdit.Enabled := True;
+    End;
+End;
+
+
+Function IsWriteable(Var F: TextFile) : ERRORS_CODE;
+Var
+    Error: ERRORS_CODE;
+Begin
+    Error := CORRECT;
+    Try
+        Try
+            Append(F);
+        Finally
+            CloseFile(F);
+        End;
+    Except
+        Error := Is_NOT_WRITEABLE;
+    End;
+    IsWriteable := Error;
+End;
+
+Procedure TLab.WriteFileData(Var F: TextFile; Sender: TObject);
+Begin
+    Append(F);
+    Write(F, ResultEdit.Text);
+    CloseFile(F);
+End;
+
+Procedure TLab.SaveOptionOnClick(Sender: TObject);
+Var
+    Error: ERRORS_CODE;
+    F: TextFile;
+    FileName: String;
+Begin
+    If OpenFile.Execute Then
+    Begin
+        FileName := OpenFile.FileName;
+        AssignFile(F, FileName);
+        Error := IsWriteable(F);
+        If Error = CORRECT Then
+        Begin
+            WriteFileData(F, Sender);
+            IsSaved := SAVE;
+        End
+        Else
+        Begin
+            Application.MessageBox(PWideChar(ERRORS[Error]), 'Ошибка', MB_OK Or MB_ICONINFORMATION);
+            IsSaved := UNSAVE;
+        End;
+    End;
+End;
+
+Var
+    PerformCloseQuery: Boolean = True;
+
+Procedure TLab.ExitOptionOnClick(Sender: TObject);
+Var
+    Confirmation: Integer;
+Begin
+    PerformCloseQuery := False;
+    If (IsSaved = UNSAVE) Then
+    Begin
+        Confirmation := Application.MessageBox('Вы не сохранили файл, хотите ли сохранить?', 'Выход', MB_YESNOCANCEl + MB_ICONQUESTION + MB_DEFBUTTON2);
+        Case Confirmation Of
+            mrYes:
+            Begin
+                SaveOptionOnClick(Sender);
+                If IsSaved = SAVE Then
+                    Close
+                Else
+                    ExitOptionOnClick(Sender);
+            End;
+            mrNo:
+                Close;
+        End;
+
+    End
+    Else
+    Begin
+        Confirmation := Application.MessageBox('Вы действительно хотите выйти?', 'Выход', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2);
+        If Confirmation = IDYES Then
+            Close;
+    End;
+    PerformCloseQuery := True;
+End;
+
+Procedure TLab.ExitOnCloseQuery(Sender: TObject; Var CanClose: Boolean);
+Var
+    Confirmation: Integer;
+Begin
+    If PerformCloseQuery Then
+    Begin
+        If (IsSaved = UNSAVE) Then
+        Begin
+            Confirmation := Application.MessageBox('Вы не сохранили файл, хотите ли сохранить?', 'Выход', MB_YESNOCANCEl + MB_ICONQUESTION + MB_DEFBUTTON2);
+            Case Confirmation Of
+                mrYes:
+                Begin
+                    SaveOptionOnClick(Sender);
+                    If IsSaved = SAVE Then
+                        CanClose := True
+                    Else
+                        ExitOnCloseQuery(Sender, CanClose);
+                End;
+                mrNo:
+                    CanClose := True;
+                mrCancel:
+                    CanClose := False;
+            End;
+        End
+        Else
+        Begin
+            Confirmation := Application.MessageBox('Вы действительно хотите выйти?', 'Выход', MB_YESNO + MB_ICONQUESTION + MB_DEFBUTTON2);
+            CanClose := Confirmation = IDYES;
+        End;
+    End;
+End;
+
+End.

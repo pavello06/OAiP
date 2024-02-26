@@ -1,0 +1,32 @@
+unit Unit3;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TDeveloper = class(TForm)
+    DeveloperLabel: TLabel;
+    DeveloperExitButton: TButton;
+    procedure DeveloperOnCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Developer: TDeveloper;
+
+implementation
+
+{$R *.dfm}
+
+procedure TDeveloper.DeveloperOnCreate(Sender: TObject);
+begin
+    DeveloperLabel.Caption := 'Разработчик: Галуха Павел Александрович'#13#10'Группа: 351005'#1310'tg: @pavello06';
+end;
+
+end.
