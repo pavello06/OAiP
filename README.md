@@ -19,19 +19,19 @@
             </td>
             <td align="center">
                 <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab12/Delphi/Project2.dpr">Delphi</a><br>
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab12/C%2B%2B/Lab12/Task.cpp">C++</a><br>
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab12/Java/Lab12/src/Main.java">Java</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab12/C%2B%2B/Lab12/Task/Task.cpp">C++</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab12/Java/task/src/Main.java">Java</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Forms/ApplicationLab12.exe">Form</a>
             </td>
             <td align="center">
                 <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab13/Delphi/Project3.dpr">Delphi</a><br>
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab13/C%2B%2B/Lab13/Task.cpp">C++</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab13/C%2B%2B/Lab13/Task/Task.cpp">C++</a><br>
                 <a href = "https://github.com/pavello06/OAiP/tree/master/Block1/Lab13/Java/untitled/src/Main.java">Java</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Forms/ApplicationLab13.exe">Form</a>
             </td>
             <td align="center">
                 <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab14/Delphi/Project4.dpr">Delphi</a><br>
-                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab14/C%2B%2B/Lab14/Task.cpp">C++</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block1/Lab14/C%2B%2B/Lab14/Task/Task.cpp">C++</a><br>
                 <a href = "https://github.com/pavello06/OAiP/tree/master/Block1/Lab14/Java/untitled/src/Main.java">Java</a><br>
                 <a href = "https://github.com/pavello06/Labs/blob/main/Forms/ApplicationLab14.exe">Form</a>
             </td>
