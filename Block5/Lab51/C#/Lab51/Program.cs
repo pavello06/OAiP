@@ -31,8 +31,8 @@ namespace Lab51
             };
 
             Node<T> current = head;
-            while (current.Next != null)
                 current = current.Next;
+            while (current.Next != null)
             current.Next = newNode;
             count++;
         }

@@ -1,0 +1,143 @@
+Unit BinarySearchTree;
+
+Interface
+
+Uses
+    Vcl.Graphics, Vcl.ExtCtrls;
+
+Type
+    TData = Integer;
+    TBinarySearchTree = ^TNode;
+
+    TNode = Record
+        Data: TData;
+        Left, Right: TBinarySearchTree;
+    End;
+
+    ERRORS_CODE = (CORRECT,
+                   ALREADY_INSERT_NODE,
+                   NOT_EXIST_NODE);
+
+Procedure Insert(BinarySearchTree: TBinarySearchTree; Data: TData{; Var Error: ERRORS_CODE});
+Procedure Remove(BinarySearchTree: TBinarySearchTree; Data: TData; Var Error: ERRORS_CODE);
+Procedure Clear(BinarySearchTree: TBinarySearchTree);
+Procedure Draw(BinarySearchTree: TBinarySearchTree; PaintBox: TPaintBox);
+
+Implementation
+
+Procedure Make(Var BinarySearchTree: TBinarySearchTree; Data: TData);
+Begin
+    New(BinarySearchTree);
+    BinarySearchTree.Data := Data;
+    BinarySearchTree.Left := Nil;
+    BinarySearchTree.Right := Nil;
+End;
+
+Procedure Insert(BinarySearchTree: TBinarySearchTree; Data: TData{; Var Error: ERRORS_CODE});
+Var
+    ParentNode: TBinarySearchTree;
+Begin
+    //Error := CORRECT;
+    If BinarySearchTree = Nil Then
+        Make(BinarySearchTree, Data)
+    Else
+    Begin
+        While BinarySearchTree <> Nil Do
+        Begin
+            ParentNode := BinarySearchTree;
+            If BinarySearchTree.Data > Data Then
+                BinarySearchTree := BinarySearchTree.Left
+            Else If BinarySearchTree.Data < Data Then
+                BinarySearchTree := BinarySearchTree.Right
+            Else
+                //Error := ALREADY_INSERT_NODE;
+        End;
+        //If Error = CORRECT Then
+        //Begin
+            If ParentNode.Data > Data Then
+            Begin
+                New(ParentNode.Left);
+                BinarySearchTree := ParentNode.Left;
+            End
+            Else
+            Begin
+                New(ParentNode.Right);
+                BinarySearchTree := ParentNode.Right;
+            End;
+            BinarySearchTree.Data := Data;
+            BinarySearchTree.Left := Nil;
+            BinarySearchTree.Right := Nil;
+        //End;
+    End;
+End;
+
+Procedure Remove(BinarySearchTree: TBinarySearchTree; Data: TData; Var Error: ERRORS_CODE);
+Var
+    RemovedNode: TBinarySearchTree;
+Begin
+    While (BinarySearchTree.Data <> Data) And (BinarySearchTree <> Nil) Do
+    Begin
+        If BinarySearchTree.Data > Data Then
+            BinarySearchTree := BinarySearchTree.Left
+        Else
+            BinarySearchTree := BinarySearchTree.Right;
+    End;
+    If BinarySearchTree = Nil Then
+        Error := NOT_EXIST_NODE 
+    Else
+    Begin
+        While BinarySearchTree.Left <> Nil Do
+        Begin
+            BinarySearchTree.Data := BinarySearchTree.Left.Data;
+            BinarySearchTree := BinarySearchTree.Left;
+        End;
+        RemovedNode := BinarySearchTree.Right;
+        BinarySearchTree.Data := BinarySearchTree.Right.Data;
+        BinarySearchTree.Left := BinarySearchTree.Right.Left;
+        BinarySearchTree.Right := BinarySearchTree.Right.Right;
+        Dispose(RemovedNode);
+    End;
+End;
+
+Procedure Clear(BinarySearchTree: TBinarySearchTree);
+Begin
+    If BinarySearchTree <> Nil Then
+    Begin
+        Clear(BinarySearchTree.Left);
+        Clear(BinarySearchTree.Right);
+        Dispose(BinarySearchTree);
+    End;
+End;
+
+Function Deep(BinarySearchTree: TBinarySearchTree) : Integer;
+Begin
+    If BinarySearchTree = Nil Then
+End;
+
+
+
+Procedure DrawBinarySearchTree(BinarySearchTree: TBinarySearchTree; PaintBox: TPaintBox; Width, Height: Integer);
+Begin
+    if BinarySearchTree <> Nil then
+    Begin
+        With PaintBox.Canvas Do
+        Begin
+            Pen.Color := clBlack;
+            Ellipse(Width, Height, Width + 50, Height + 50);
+            Height := Height + 90;
+            DrawBinarySearchTree(BinarySearchTree.Left, PaintBox, Width - Round(Width * 0.7), Height);
+            DrawBinarySearchTree(BinarySearchTree.Right, PaintBox, Width + Round(Width * 0.7), Height);
+        End;
+    End;
+End;
+
+Procedure Draw(BinarySearchTree: TBinarySearchTree; PaintBox: TPaintBox);
+Begin
+    With PaintBox.Canvas Do
+    Begin
+        Pen.Color := clBlack;
+        DrawBinarySearchTree(BinarySearchTree, PaintBox, 5 * 20, 100);
+    End;
+End;
+
+End.

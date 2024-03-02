@@ -1,0 +1,22 @@
+Unit Tree;
+
+Interface
+
+Implementation
+
+Type
+    TNode = TTree;
+    TTree = Record
+        Data: Integer;
+        Left, Right: TNode;
+    End;
+
+Procedure CreateTree(Tree: TTree);
+Begin
+    New(Tree);
+    Tree.Left := Nil;
+    Tree.Right := Nil;
+End;
+
+
+End.
