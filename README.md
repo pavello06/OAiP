@@ -105,8 +105,8 @@
                 <a href = "https://github.com/pavello06/OAiP/blob/master/Block5/Lab51/C%23/Lab51/Program.cs">C#</a><br>
             </td>
             <td align="center">
-                <a href = "">Delphi</a><br>
-                <a href = "">C#</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block5/Lab52/Delphi/MainUnit.pas">Delphi</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block5/Lab52/C%23/Lab52/Program.cs">C#</a><br>
             </td>
             <td align="center">------</td>
             <td align="center">------</td>
