@@ -27,7 +27,7 @@ object ActionForm: TActionForm
     Height = 33
     MaxLength = 9
     TabOrder = 0
-    TextHint = '1..99'
+    TextHint = '1..999'
     OnChange = NumberEditChange
     OnContextPopup = NumberEditContextPopup
     OnKeyDown = NumberEditKeyDown

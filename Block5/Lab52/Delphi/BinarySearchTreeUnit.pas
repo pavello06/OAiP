@@ -23,7 +23,7 @@ Const
     ERRORS: Array [ERRORS_CODE] Of String = ('',
                                              'Узел уже добавлен!',
                                              'Узел не существует',
-                                             'Слишком много узлов');
+                                             'Слишком большая глубина!');
 
     MAX_DEPTH = 7;
     DEGREES_OF_TWO: Array [0 .. (MAX_DEPTH - 1)] Of Integer = (1, 2, 4, 8, 16, 32, 64);

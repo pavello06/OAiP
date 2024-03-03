@@ -4,10 +4,13 @@ object MainForm: TMainForm
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = #1043#1072#1083#1091#1093#1072' '#1055#1072#1074#1077#1083' 351005 Lab52'
-  ClientHeight = 585
-  ClientWidth = 993
+  ClientHeight = 576
+  ClientWidth = 987
   Color = clBtnFace
-  Constraints.MinWidth = 545
+  Constraints.MaxHeight = 648
+  Constraints.MaxWidth = 1005
+  Constraints.MinHeight = 648
+  Constraints.MinWidth = 1005
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -18
@@ -1292,7 +1295,7 @@ object MainForm: TMainForm
   end
   object CalculateImage: TImage
     Left = 8
-    Top = 240
+    Top = 248
     Width = 73
     Height = 73
     Picture.Data = {
@@ -2189,16 +2192,14 @@ object MainForm: TMainForm
     OnClick = CalculateImageClick
   end
   object ScrollBox: TScrollBox
-    Left = 92
+    Left = 86
     Top = 0
     Width = 901
-    Height = 585
+    Height = 576
     HorzScrollBar.Tracking = True
     VertScrollBar.Visible = False
     Align = alRight
     TabOrder = 0
-    ExplicitLeft = 86
-    ExplicitHeight = 576
     object PaintBox: TPaintBox
       Left = 3
       Top = 3

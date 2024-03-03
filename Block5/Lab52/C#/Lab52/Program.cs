@@ -18,7 +18,7 @@ namespace Lab52
             Right = null,
         };
 
-        internal const int MAX_DEPTH = 7;
+        internal const int MAX_DEPTH = 15;
         private int depth = 0;
         private int[] singleParentLevels = new int[MAX_DEPTH];
 
@@ -163,6 +163,7 @@ namespace Lab52
             for (int level = 0; level < singleParentLevels.Length; level++)
                 if (singleParentLevels[level] == 1)
                     Console.Write($"{level + 1}; ");
+            Console.WriteLine();
         }
     }
     internal class Program
@@ -242,7 +243,7 @@ namespace Lab52
                 switch (action)
                 {
                     case Actions.Insert:
-                        Console.Write("Введите значение узла: ");
+                        Console.Write("Введите значение узла в диапазоне[1..999] (глубина не превышает 15): ");
                         data = ReadNumWithinRange(1, 999, ERRORS_CODE.INCORRECT_NUM);
                         tree.Insert(data);
                         break;
