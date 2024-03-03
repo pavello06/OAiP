@@ -48,7 +48,7 @@ Var
     LeftDepth, RightDepth: Integer;
 Begin
     If BinarySearchTree = Nil Then
-        Result := 0
+        FindDepth := 0
     Else
     Begin
         LeftDepth := FindDepth(BinarySearchTree.Left);
