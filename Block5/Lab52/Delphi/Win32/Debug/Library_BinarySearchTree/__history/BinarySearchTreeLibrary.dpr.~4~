@@ -254,22 +254,14 @@ End;
 
 
 
-Procedure ClearBinarySearchTree(Root: TBinarySearchTree);
+Procedure Clear(Root: TBinarySearchTree);
 Begin
     If Root <> Nil Then
     Begin
-        ClearBinarySearchTree(Root.Left);
-        ClearBinarySearchTree(Root.Right);
+        Clear(Root.Left);
+        Clear(Root.Right);
         Dispose(Root);
     End;
 End;
-
-Procedure Clear();
-Begin
-    ClearBinarySearchTree(Root);
-End;
-
-Exports
-    Make, Insert, Remove, RemoveFirstNode, Clear, Draw;
 
 End.
