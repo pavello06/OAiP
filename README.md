@@ -118,6 +118,7 @@
             </td>
             <td align="center">
                 <a href = "https://github.com/pavello06/OAiP/blob/master/Block6/Lab62/Delphi/MainUnit.pas">Delphi</a><br>
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block6/Lab62/C%23/Lab62/Program.cs">C#</a><br>
             </td>
             <td align="center">------</td>
             <td align="center">------</td>
