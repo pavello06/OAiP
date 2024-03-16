@@ -1,0 +1,7 @@
+C:\BSUIR\OAiP\Block6\Lab62\C#\Lab62\bin\Debug\Lab62.exe.config
+C:\BSUIR\OAiP\Block6\Lab62\C#\Lab62\bin\Debug\Lab62.exe
+C:\BSUIR\OAiP\Block6\Lab62\C#\Lab62\bin\Debug\Lab62.pdb
+C:\BSUIR\OAiP\Block6\Lab62\C#\Lab62\obj\Debug\Lab62.csproj.AssemblyReference.cache
+C:\BSUIR\OAiP\Block6\Lab62\C#\Lab62\obj\Debug\Lab62.csproj.CoreCompileInputs.cache
+C:\BSUIR\OAiP\Block6\Lab62\C#\Lab62\obj\Debug\Lab62.exe
+C:\BSUIR\OAiP\Block6\Lab62\C#\Lab62\obj\Debug\Lab62.pdb

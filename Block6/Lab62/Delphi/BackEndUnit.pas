@@ -13,11 +13,11 @@ Type
         Col, Row: Integer;
     End;
 
-Var
+Const
     Moves: Array [1 .. 8] Of TPosition = ((Col: 2; Row: 1), (Col: 1; Row: 2), (Col: -1; Row: 2), (Col: -2; Row: 1),
                                           (Col: -2; Row: -1), (Col: -1; Row: -2), (Col: 1; Row: -2), (Col: 2; Row: -1));
 
-Procedure InitializeField();
+Procedure InitializeBoard();
 Var
     Col, Row: Integer;
 Begin
@@ -36,7 +36,7 @@ Begin
     Result := Board[Col, Row] = 0;
 End;
 
-Function CalcAvailableMoves(Col, Row: Integer): Integer;
+Function CountAvailableMoves(Col, Row: Integer): Integer;
 Var
     MoveIndex, NextCol, NextRow: Integer;
 Begin
@@ -50,7 +50,7 @@ Begin
     End;
 End;
 
-Function CalcNextMove(Col, Row: Integer): TPosition;
+Function FindNextOptimalMove(Col, Row: Integer): TPosition;
 Var
     MoveIndex, NextCol, NextRow, MinMoves, MinMovesIndex: Integer;
 Begin
@@ -63,9 +63,9 @@ Begin
         NextRow := Row + Moves[MoveIndex].Row;
         If IsInsideBoard(NextCol, NextRow) And IsNotVisited(NextCol, NextRow) Then
         Begin
-            If CalcAvailableMoves(NextCol, NextRow) < MinMoves Then
+            If CountAvailableMoves(NextCol, NextRow) < MinMoves Then
             Begin
-                MinMoves := CalcAvailableMoves(NextCol, NextRow);
+                MinMoves := CountAvailableMoves(NextCol, NextRow);
                 MinMovesIndex := MoveIndex;
             End;
         End;
@@ -79,6 +79,7 @@ End;
 
 Procedure KnightTour(Col, Row, MoveCount: Integer);
 Var
+    NextPosition: TPosition;
     NextCol, NextRow: Integer;
 Begin
     Board[Col, Row] := MoveCount;
@@ -86,15 +87,16 @@ Begin
     If MoveCount = BOARD_CELLS_AMOUNT * BOARD_CELLS_AMOUNT Then
         Exit;
 
-    NextCol := CalcNextMove(Col, Row).Col;
-    NextRow := CalcNextMove(Col, Row).Row;
+    NextPosition := FindNextOptimalMove(Col, Row);
+    NextCol := NextPosition.Col;
+    NextRow := NextPosition.Row;
 
     KnightTour(NextCol, NextRow, MoveCount + 1);
 End;
 
 Procedure CalcMoves();
 Begin
-    InitializeField();
+    InitializeBoard();
     KnightTour(CurrentCol, CurrentRow, 1);
 End;
 

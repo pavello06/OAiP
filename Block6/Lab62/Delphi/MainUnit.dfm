@@ -2,8 +2,8 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   Caption = '351005 '#1043#1072#1083#1091#1093#1072' '#1055#1072#1074#1077#1083' Lab62'
-  ClientHeight = 573
-  ClientWidth = 788
+  ClientHeight = 564
+  ClientWidth = 782
   Color = clBtnFace
   Constraints.MinHeight = 600
   Constraints.MinWidth = 800
