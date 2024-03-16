@@ -94,7 +94,6 @@ Begin
     KnightTour(NextCol, NextRow, MoveCount + 1);
 End;
 
-
 Procedure CalcMoves();
 Begin
     InitializeBoard();
