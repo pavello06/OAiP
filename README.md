@@ -111,5 +111,16 @@
             <td align="center">------</td>
             <td align="center">------</td>
         </tr>
+        <tr>
+            <td align="center">Block6</td>
+            <td align="center">
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block6/Lab61/Delphi/MainUnit.pas">Delphi</a><br>
+            </td>
+            <td align="center">
+                <a href = "https://github.com/pavello06/OAiP/blob/master/Block6/Lab62/Delphi/MainUnit.pas">Delphi</a><br>
+            </td>
+            <td align="center">------</td>
+            <td align="center">------</td>
+        </tr>
     </tbody>
 </table>
