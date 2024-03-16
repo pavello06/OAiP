@@ -1,0 +1,17 @@
+program Pstrichki;
+
+uses
+  Vcl.Forms,
+  GameUnit in 'GameUnit.pas' {GameForm},
+  StartUnit in 'StartUnit.pas' {StartForm},
+  MenuUnit in 'MenuUnit.pas' {MenuFrame: TFrame};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TGameForm, GameForm);
+  Application.CreateForm(TStartForm, StartForm);
+  Application.Run;
+end.

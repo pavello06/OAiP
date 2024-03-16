@@ -1,0 +1,69 @@
+Unit BackEndUnit;
+
+Interface
+
+Procedure CalcMoves();
+
+Implementation
+
+Uses MainUnit;
+
+Type
+    TPosition = Record
+        X, Y: Integer;
+    End;
+
+Var
+    Moves: Array [1 .. 8] Of TPosition = ((X: 2; Y: 1), (X: 1; Y: 2), (X: -1; Y: 2), (X: -2; Y: 1),
+                                          (X: -2; Y: -1), (X: -1; Y: -2), (X: 1; Y: -2), (X: 2; Y: -1));
+
+Procedure InitializeField();
+Var
+    Col, Row: Word;
+Begin
+    For Col := 0 To FIELD_CELLS_AMOUNT - 1 Do
+        For Row := 0 To FIELD_CELLS_AMOUNT - 1 Do
+            Field[Col, Row] := 0;
+End;
+
+Function IsValidMove(Const X, Y: Integer): Boolean;
+Begin
+    IsValidMove := (X >= 0) And (X < FIELD_CELLS_AMOUNT) And
+                   (Y >= 0) And (Y < FIELD_CELLS_AMOUNT) And
+                   (Field[X, Y] = 0);
+End;
+
+Function FindMoves(Const CurrentX, CurrentY, MoveCount: Integer): Boolean;
+Var
+    NextX, NextY, MoveIndex: Integer;
+Begin
+    Field[CurrentX, CurrentY] := MoveCount;
+
+    If MoveCount = FIELD_CELLS_AMOUNT * FIELD_CELLS_AMOUNT Then
+    Begin
+        FindMoves := True;
+        Exit;
+    End;
+
+    For MoveIndex := Low(Moves) To High(Moves) Do
+    Begin
+        NextX := CurrentX + Moves[MoveIndex].X;
+        NextY := CurrentY + Moves[MoveIndex].Y;
+        If IsValidMove(NextX, NextY) And FindMoves(NextX, NextY, MoveCount + 1) Then
+        Begin
+            FindMoves := True;
+            Exit;
+        End;
+    End;
+
+    Field[CurrentX, CurrentY] := 0;
+    FindMoves := False;
+End;
+
+Procedure CalcMoves();
+Begin
+    InitializeField();
+    FindMoves(Col, Row, 1);
+End;
+
+End.

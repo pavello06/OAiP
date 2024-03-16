@@ -1,0 +1,79 @@
+Unit BackEndUnit;
+
+Interface
+
+Procedure CalcMoves();
+
+Implementation
+
+Uses MainUnit;
+
+Type
+    TPosition = Record
+        Col, Row: Integer;
+    End;
+
+Var
+    Moves: Array [1 .. 8] Of TPosition = ((Col: 2; Row: 1), (Col: 1; Row: 2), (Col: -1; Row: 2), (Col: -2; Row: 1),
+                                          (Col: -2; Row: -1), (Col: -1; Row: -2), (Col: 1; Row: -2), (Col: 2; Row: -1));
+
+Procedure InitializeField();
+Var
+    Col, Row: Word;
+Begin
+    For Col := 0 To FIELD_CELLS_AMOUNT - 1 Do
+        For Row := 0 To FIELD_CELLS_AMOUNT - 1 Do
+            Field[Col, Row] := 0;
+End;
+
+Function IsValidMove(Const Col, Row: Integer): Boolean;
+Begin
+    IsValidMove := (Col >= 0) And (Col < FIELD_CELLS_AMOUNT) And
+                   (Row >= 0) And (Row < FIELD_CELLS_AMOUNT) And
+                   (Field[Col, Row] = 0);
+End;
+
+Function FindMinMoveIndex(CurrentCol, CurrentRow: Integer) : Integer;
+Var
+    NextCol, NextRow, MoveIndex, MoveCount, MinIndex: Integer;
+Begin
+    MinIndex := 1;
+    NextCol := CurrentCol + Moves[MinIndex].Col;
+    NextRow := CurrentRow + Moves[MinIndex].Row;
+    For MoveIndex := Low(Moves) To High(Moves) Do
+    Begin
+        NextCol := CurrentCol + Moves[MoveIndex].Col;
+        NextRow := CurrentRow + Moves[MoveIndex].Row;
+        If IsValidMove(NextCol, NextRow) And Field[NextCol, NextRow] Then
+
+    End;
+End;
+
+Function FindMoves(Const CurrentCol, CurrentRow, MoveCount: Integer): Boolean;
+Var
+    NextCol, NextRow, MoveIndex: Integer;
+Begin
+    Field[CurrentCol, CurrentRow] := MoveCount;
+
+    If MoveCount = FIELD_CELLS_AMOUNT * FIELD_CELLS_AMOUNT Then
+        Exit(True);
+
+    For MoveIndex := Low(Moves) To High(Moves) Do
+    Begin
+        NextCol := CurrentCol + Moves[MoveIndex].Col;
+        NextRow := CurrentRow + Moves[MoveIndex].Row;
+        If IsValidMove(NextCol, NextRow) And FindMoves(NextCol, NextRow, MoveCount + 1) Then
+            Exit(True);
+    End;
+
+    Field[CurrentCol, CurrentRow] := 0;
+    FindMoves := False;
+End;
+
+Procedure CalcMoves();
+Begin
+    InitializeField();
+    FindMoves(CurrentCol, CurrentRow, 1);
+End;
+
+End.

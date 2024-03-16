@@ -1,0 +1,58 @@
+Unit MainUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+Const
+    WATCH_PAINT_BOX_PADDING_LEFT_RIGHT = 80;
+    WATCH_PAINT_BOX_PADDING_TOP_BOTTOM = 20;
+
+Type
+    TMainForm = Class(TForm)
+        WatchPaintBox: TPaintBox;
+        StartButton: TButton;
+        WatchTimer: TTimer;
+        Procedure MainFormCreate(Sender: TObject);
+        Procedure WatchPaintBoxPaint(Sender: TObject);
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    MainForm: TMainForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TMainForm.MainFormCreate(Sender: TObject);
+Begin
+
+    WatchPaintBoxPaint(WatchPaintBox);
+End;
+
+Procedure TMainForm.WatchPaintBoxPaint(Sender: TObject);
+Begin
+    With WatchPaintBox.Canvas Do
+    Begin
+        Pen.Width := 10;
+        Pen.Color := clRed;
+        Polygon([Point(0 + WATCH_PAINT_BOX_PADDING_LEFT_RIGHT,
+                       0 + WATCH_PAINT_BOX_PADDING_TOP_BOTTOM),
+                 Point(WatchPaintBox.Width - WATCH_PAINT_BOX_PADDING_LEFT_RIGHT,
+                       0 + WATCH_PAINT_BOX_PADDING_TOP_BOTTOM),
+                 Point(0 + WATCH_PAINT_BOX_PADDING_LEFT_RIGHT,
+                       WatchPaintBox.Height - WATCH_PAINT_BOX_PADDING_TOP_BOTTOM),
+                 Point(WatchPaintBox.Width - WATCH_PAINT_BOX_PADDING_LEFT_RIGHT,
+                       WatchPaintBox.Height - WATCH_PAINT_BOX_PADDING_TOP_BOTTOM)]);
+    End;
+    WatchTimer.Enabled := False;
+End;
+
+End.

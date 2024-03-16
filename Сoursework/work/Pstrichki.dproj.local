@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.636,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.828,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.385,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.832,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.902,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.534,C:\BSUIR\OAiP\Сoursework\work\Unit1.dfm=C:\BSUIR\OAiP\Сoursework\work\RatingUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.345,C:\BSUIR\OAiP\Сoursework\work\GameUnit.pas=C:\BSUIR\OAiP\Сoursework\work\PlayUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.801,C:\BSUIR\OAiP\Сoursework\work\Pstrichki.dproj=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.659,C:\BSUIR\OAiP\Сoursework\work\SettingsUnit.pas=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.158,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.893,C:\BSUIR\OAiP\Сoursework\work\Unit1.pas=C:\BSUIR\OAiP\Сoursework\work\MenuUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.545,C:\BSUIR\OAiP\Сoursework\work\StartUnit.pas=C:\BSUIR\OAiP\Сoursework\work\RuleUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.361,C:\BSUIR\OAiP\Сoursework\work\StartUnit.pas=C:\BSUIR\OAiP\Сoursework\work\RuleUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.955,C:\BSUIR\OAiP\Сoursework\work\RuleUnit.dfm=C:\BSUIR\OAiP\Сoursework\work\StartUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.345,C:\BSUIR\OAiP\Сoursework\work\RuleUnit.dfm=C:\BSUIR\OAiP\Сoursework\work\StartUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.375,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.375,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.995,=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.365,C:\BSUIR\OAiP\Сoursework\work\Unit1.pas=C:\BSUIR\OAiP\Сoursework\work\RuleUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.534,C:\BSUIR\OAiP\Сoursework\work\Unit1.pas=C:\BSUIR\OAiP\Сoursework\work\RatingUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.902,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.352,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.659,C:\BSUIR\OAiP\Сoursework\work\SettingsUnit.dfm=C:\BSUIR\OAiP\Сoursework\work\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.635,C:\BSUIR\OAiP\Сoursework\work\MenuUnit.pas=C:\BSUIR\OAiP\Сoursework\work\StartUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.706,C:\BSUIR\OAiP\Сoursework\work\MenuUnit.pas=C:\BSUIR\OAiP\Сoursework\work\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.365,C:\BSUIR\OAiP\Сoursework\work\PlayUnit.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\PlayUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.545,C:\BSUIR\OAiP\Сoursework\work\StartUnit.dfm=C:\BSUIR\OAiP\Сoursework\work\RuleUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.361,C:\BSUIR\OAiP\Сoursework\work\StartUnit.dfm=C:\BSUIR\OAiP\Сoursework\work\RuleUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.909,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.180,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.635,C:\BSUIR\OAiP\Сoursework\work\MenuUnit.dfm=C:\BSUIR\OAiP\Сoursework\work\StartUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.872,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\PlayUnit.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.365,C:\BSUIR\OAiP\Сoursework\work\PlayUnit.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\PlayUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.365,C:\BSUIR\OAiP\Сoursework\work\Unit1.dfm=C:\BSUIR\OAiP\Сoursework\work\RuleUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.893,C:\BSUIR\OAiP\Сoursework\work\Unit1.dfm=C:\BSUIR\OAiP\Сoursework\work\MenuUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.872,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\PlayUnit.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.345,C:\BSUIR\OAiP\Сoursework\work\GameUnit.dfm=C:\BSUIR\OAiP\Сoursework\work\PlayUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.955,C:\BSUIR\OAiP\Сoursework\work\RuleUnit.pas=C:\BSUIR\OAiP\Сoursework\work\StartUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.345,C:\BSUIR\OAiP\Сoursework\work\RuleUnit.pas=C:\BSUIR\OAiP\Сoursework\work\StartUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.706,C:\BSUIR\OAiP\Сoursework\work\MenuUnit.dfm=C:\BSUIR\OAiP\Сoursework\work\Unit1.dfm</Transaction>
+  </Transactions>
+	<ProjectSortOrder AutoSort="0" SortType="0">
+    <File Path="GameUnit.pas"/>
+    <File Path="GameUnit.dfm"/>
+    <File Path="MenuUnit.pas"/>
+    <File Path="MenuUnit.dfm"/>
+    <File Path="RatingUnit.pas"/>
+    <File Path="RatingUnit.dfm"/>
+    <File Path="RuleUnit.pas"/>
+    <File Path="RuleUnit.dfm"/>
+    <File Path="SettingsUnit.pas"/>
+    <File Path="SettingsUnit.dfm"/>
+    <File Path="StartUnit.pas"/>
+    <File Path="StartUnit.dfm"/>
+  </ProjectSortOrder>
+</BorlandProject>

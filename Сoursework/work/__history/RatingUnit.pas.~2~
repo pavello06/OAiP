@@ -1,0 +1,44 @@
+unit RatingUnit;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, MenuUnit, Vcl.Grids, Vcl.ExtCtrls;
+
+type
+  TRatingForm = class(TForm)
+    MenuFrame1: TMenuFrame;
+    BackPanel: TPanel;
+    StringGrid1: TStringGrid;
+    procedure RatingFormResize(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  RatingForm: TRatingForm;
+
+implementation
+
+{$R *.dfm}
+
+procedure TRatingForm.RatingFormResize(Sender: TObject);
+begin
+    With MenuFrame Do
+    Begin
+        MenuFrame.MenuFrameResize(MenuFrame);
+
+        RuleLabel.Width := BASIC_RULE_WIDTH * ClientWidth Div BASIC_CLIENT_WIDTH;
+        RuleLabel.Font.Size := BASIC_RULE_FONT_SIZE * ClientHeight Div BASIC_CLIENT_HEIGHT;
+        RuleLabel.Left := (ClientWidth - RuleLabel.Width) Div 2;
+        RuleLabel.Top := TitleLabel.Top + TitleLabel.Height + BASIC_TITLE_RULE_DISTANCE * ClientHeight Div BASIC_CLIENT_HEIGHT;
+
+        BackPanel.Top := RuleLabel.Top + RuleLabel.Height + BASIC_RULE_PANEL_DISNACE * ClientHeight Div BASIC_CLIENT_HEIGHT;
+        PanelProperties(BackPanel, PanelWidth, PanelHeight, PanelFontSize, PanelLeft);
+    End;
+end;
+
+end.

@@ -1,0 +1,126 @@
+Unit MainUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
+    Vcl.Imaging.pngimage, FrontEndUnit, BackEndUnit;
+
+Const
+    FIELD_CELLS_AMOUNT = 8;
+
+Type
+    TMainForm = Class(TForm)
+        FieldImage: TImage;
+        HorseFigureImage: TImage;
+        StartButton: TButton;
+        HorseFigureTimer: TTimer;
+        Procedure FormResize(Sender: TObject);
+
+        Procedure HorseFigureImageMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+        Procedure HorseFigureImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+        Procedure HorseFigureImageMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+
+        Procedure StartButtonClick(Sender: TObject);
+
+        Procedure HorseFigureTimerTimer(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    MainForm: TMainForm;
+    CellSize, BorderSize: Word;
+    Col: Integer = 0;
+    Row: Integer = 0;
+    Field: Array [0..FIELD_CELLS_AMOUNT - 1, 0..FIELD_CELLS_AMOUNT - 1] Of Integer;
+    MoveCount: Integer;
+
+Implementation
+
+{$R *.dfm}
+
+Var
+    IsDragging: Boolean;
+    StartX, StartY: Integer;
+
+Procedure TMainForm.FormResize(Sender: TObject);
+Begin
+    DrawField(FieldImage);
+    DrawButton(FieldImage, StartButton);
+    DrawHorse(FieldImage, HorseFigureImage, Col, Row);
+    HorseFigureTimer.Enabled := False;
+End;
+
+
+Procedure TMainForm.HorseFigureImageMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+Begin
+    If Button = mbLeft Then
+    Begin
+        DrawField(FieldImage);
+        HorseFigureTimer.Enabled := False;
+        IsDragging := True;
+        StartX := X;
+        StartY := Y;
+    End;
+End;
+
+Procedure TMainForm.HorseFigureImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+begin
+    If IsDragging Then
+    Begin
+        HorseFigureImage.Left := HorseFigureImage.Left + (X - StartX);
+        HorseFigureImage.Top := HorseFigureImage.Top + (Y - StartY);
+    End;
+End;
+
+Procedure TMainForm.HorseFigureImageMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+Begin
+    If Button = mbLeft Then
+    Begin
+        IsDragging := False;
+        Col := Round((HorseFigureImage.Left - FieldImage.Left - BorderSize) / CellSize);
+        Row := Round((HorseFigureImage.Top - FieldImage.Top - BorderSize) / CellSize);
+        If Col < 0 Then
+            Col := 0
+        Else If Col > FIELD_CELLS_AMOUNT - 1 Then
+            Col := FIELD_CELLS_AMOUNT - 1;
+        If Row < 0 Then
+            Row := 0
+        Else If Row > FIELD_CELLS_AMOUNT - 1 Then
+            Row := FIELD_CELLS_AMOUNT - 1;
+
+        DrawHorse(FieldImage, HorseFigureImage, Col, Row);
+    End;
+End;
+
+
+Procedure TMainForm.StartButtonClick(Sender: TObject);
+Var
+    Col, Row: Word;
+Begin
+    DrawField(FieldImage);
+    MoveCount := 1;
+    CalcMoves();
+    If Not HorseFigureTimer.Enabled Then
+        Application.MessageBox('Побереги комп, сынок.', 'Треш', MB_OK + MB_USERICON);
+End;
+
+
+Procedure TMainForm.HorseFigureTimerTimer(Sender: TObject);
+Begin
+    DrawHorseStep(FieldImage, HorseFigureImage);
+    If MoveCount = FIELD_CELLS_AMOUNT * FIELD_CELLS_AMOUNT + 1 Then
+    Begin
+        Col := Round((HorseFigureImage.Left - FieldImage.Left - BorderSize) / CellSize);
+        Row := Round((HorseFigureImage.Top - FieldImage.Top - BorderSize) / CellSize);
+        HorseFigureTimer.Enabled := False;
+    End;
+End;
+
+End.

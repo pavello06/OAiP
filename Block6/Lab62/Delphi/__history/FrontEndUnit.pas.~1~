@@ -1,0 +1,144 @@
+Unit FrontEndUnit;
+
+Interface
+
+Uses
+    System.SysUtils, Vcl.Graphics, Vcl.ExtCtrls, Vcl.StdCtrls, Vcl.Imaging.pngimage;
+
+Procedure DrawField(FieldImage: TImage);
+Procedure DrawHorse(FieldImage, HorseFigureImage: TImage);
+Procedure DrawButton(FieldImage: TImage; StartButton: TButton);
+Procedure DrawHorseStep(FieldImage, HorseFigureImage: TImage);
+
+Implementation
+
+Uses MainUnit;
+
+Const
+    BASED_CLIENT_WIDTH : Word = 800;
+    BASED_CLIENT_HEIGHT : Word = 600;
+    BASED_FORM_MARGINS_TOP_BOTTOM : Word = 25;
+
+    BASED_FIELD_SIZE : Word = 450;
+    BASED_FIELD_FONT_SIZE : Word = 10;
+    BASED_FIELD_BORDER_SIZE : Word = 10;
+
+    BASED_START_BUTTON_WIDTH : Word = 200;
+    BASED_START_BUTTON_HEIGHT : Word = 50;
+    BASED_START_BUTTON_FONT_SIZE : Word = 20;
+
+
+    FIELD_BRUSH_BORDER_COLOR: TColor = $1B60A5;
+    FIELD_BRUSH_LIGHT_COLOR: TColor = $9ECEFF;
+    FIELD_BRUSH_DARK_COLOR: TColor = $478CD2;
+
+Var
+    CellSize, BorderSize: Word;
+
+Procedure ChangeBrushColor(FieldImage: TImage);
+Begin
+    With FieldImage.Canvas.Brush Do
+    Begin
+        If Color = FIELD_BRUSH_LIGHT_COLOR Then
+            Color := FIELD_BRUSH_DARK_COLOR
+        Else
+            Color := FIELD_BRUSH_LIGHT_COLOR;
+    End;
+End;
+
+Procedure DrawField(FieldImage: TImage);
+Var
+    FieldSize, Col, Row: Word;
+    X, Y: Integer;
+Begin
+    With FieldImage Do
+    Begin
+        If (MainForm.ClientWidth / MainForm.ClientHeight) < (BASED_CLIENT_WIDTH / BASED_CLIENT_HEIGHT) Then
+        Begin
+            FieldSize := BASED_FIELD_SIZE * MainForm.ClientWidth Div BASED_CLIENT_WIDTH;
+            BorderSize := BASED_FIELD_BORDER_SIZE * MainForm.ClientWidth Div BASED_CLIENT_WIDTH;
+        End
+        Else
+        Begin
+            FieldSize := BASED_FIELD_SIZE * MainForm.ClientHeight Div BASED_CLIENT_HEIGHT;
+            BorderSize := BASED_FIELD_BORDER_SIZE * MainForm.ClientHeight Div BASED_CLIENT_HEIGHT;
+        End;
+        CellSize := (FieldSize - 2 * BorderSize) Div FIELD_CELLS_AMOUNT;
+
+        Width := FieldSize;
+        Height := FieldSize;
+        Left := (MainForm.ClientWidth - Width) Div 2;
+        Top := BASED_FORM_MARGINS_TOP_BOTTOM * MainForm.ClientHeight Div BASED_CLIENT_HEIGHT;
+    End;
+
+    With FieldImage.Canvas Do
+    Begin
+        Brush.Color := FIELD_BRUSH_BORDER_COLOR;
+        Rectangle(0, 0, FieldSize, FieldSize);
+
+        Brush.Color := FIELD_BRUSH_LIGHT_COLOR;
+        For Col := 0 To FIELD_CELLS_AMOUNT - 1 Do
+        Begin
+            X := Col * CellSize + BorderSize;
+            For Row := 0 To FIELD_CELLS_AMOUNT - 1 Do
+            Begin
+                Y := Row * CellSize + BorderSize;
+                Rectangle(X, Y, X + CellSize, Y + CellSize);
+                ChangeBrushColor(FieldImage);
+            End;
+            ChangeBrushColor(FieldImage);
+        End;
+
+        Brush.Style := bsClear;
+        Font.Size := BASED_FIELD_FONT_SIZE * MainForm.ClientWidth Div BASED_CLIENT_WIDTH;
+    End;
+End;
+
+
+Procedure DrawHorse(FieldImage, HorseFigureImage: TImage);
+Begin
+    With HorseFigureImage Do
+    Begin
+        Width := CellSize;
+        Height := CellSize;
+        Left := FieldImage.Left + BorderSize;
+        Top := FieldImage.Top + BorderSize;
+        Visible := True;
+    End;
+End;
+
+
+Procedure DrawButton(FieldImage: TImage; StartButton: TButton);
+Begin
+    With StartButton Do
+    Begin
+        Width := BASED_START_BUTTON_WIDTH * MainForm.ClientWidth Div BASED_CLIENT_WIDTH;
+        Height := BASED_START_BUTTON_HEIGHT * MainForm.ClientHeight Div BASED_CLIENT_HEIGHT;
+        Left := (MainForm.ClientWidth - Width) Div 2;
+        Top := MainForm.ClientHeight - BASED_FORM_MARGINS_TOP_BOTTOM * MainForm.ClientHeight Div BASED_CLIENT_HEIGHT - Height;
+        If (MainForm.ClientWidth / MainForm.ClientHeight) < (BASED_CLIENT_WIDTH / BASED_CLIENT_HEIGHT) Then
+            Font.Size := BASED_START_BUTTON_FONT_SIZE * MainForm.ClientWidth Div BASED_CLIENT_WIDTH
+        Else
+            Font.Size := BASED_START_BUTTON_FONT_SIZE * MainForm.ClientHeight Div BASED_CLIENT_HEIGHT;
+    End;
+End;
+
+
+Procedure DrawHorseStep(FieldImage, HorseFigureImage: TImage);
+Var
+    Col, Row: Word;
+Begin
+    For Col := 0 To FIELD_CELLS_AMOUNT - 1 Do
+        For Row := 0 To FIELD_CELLS_AMOUNT - 1 Do
+            If Field[Col, Row] = MoveCount Then
+            Begin
+                HorseFigureImage.Left := FieldImage.Left + BorderSize + Col * CellSize;
+                HorseFigureImage.Top := FieldImage.Top + BorderSize + Row * CellSize;
+                With FieldImage.Canvas Do
+                    TextOut(Col * CellSize + (CellSize - TextWidth(IntToStr(MoveCount))) Div 2 + BorderSize, Row * CellSize + (CellSize - TextHeight(IntToStr(MoveCount))) Div 2 + BorderSize, IntToStr(MoveCount));
+                Inc(MoveCount);
+                Exit;
+            End;
+End;
+
+End.

@@ -1,0 +1,14 @@
+program Pstrichki;
+
+uses
+  Vcl.Forms,
+  PlayUnit in 'PlayUnit.pas' {PlayForm};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TPlayForm, PlayForm);
+  Application.Run;
+end.

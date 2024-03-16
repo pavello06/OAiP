@@ -1,0 +1,31 @@
+Unit GameUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Imaging.pngimage,
+    Vcl.Imaging.jpeg;
+
+Type
+    TPlayForm = Class(TForm)
+        BackgroundImage: TImage;
+    GameFieldImage: TImage;
+    SettingsImage: TImage;
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    PlayForm: TPlayForm;
+
+Implementation
+
+{$R *.dfm}
+
+
+
+End.

@@ -10,6 +10,7 @@ object SettingsForm: TSettingsForm
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Position = poScreenCenter
   OnCanResize = SettingsFormResize
   TextHeight = 15
   object BackgroundImage: TImage

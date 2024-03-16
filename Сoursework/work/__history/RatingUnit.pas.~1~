@@ -1,0 +1,27 @@
+unit RatingUnit;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, MenuUnit, Vcl.Grids, Vcl.ExtCtrls;
+
+type
+  TRatingForm = class(TForm)
+    MenuFrame1: TMenuFrame;
+    BackPanel: TPanel;
+    StringGrid1: TStringGrid;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  RatingForm: TRatingForm;
+
+implementation
+
+{$R *.dfm}
+
+end.

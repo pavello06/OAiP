@@ -1,0 +1,72 @@
+Unit FrontEnd;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
+    Vcl.Imaging.pngimage;
+
+Const
+    BASED_CLIENT_WIDTH : Word = 800;
+    BASED_CLIENT_HEIGHT : Word = 600;
+    BASED_FORM_MARGINS_TOP_BOTTOM : Word = 25;
+
+    BASED_FIELD_SIZE : Word = 450;
+    BASED_FIELD_BORDER_SIZE : Word = 20;
+    BASED_FIELD_MARGIN_BOTTOM : Word = 50;
+
+    BASED_START_BUTTON_WIDTH : Word = 200;
+    BASED_START_BUTTON_HEIGHT : Word = 50;
+    BASED_START_BUTTON_FONT_SIZE : Word = 20;
+
+
+    FIELD_LIGHT_COLOR: TColor = clWhite;
+    FIELD_DARK_COLOR: TColor = clBlack;
+
+Implementation
+
+Uses MainUnit;
+
+Procedure DrawField(FieldImage: TImage);
+Var
+    FieldSize, CellSize, Col, Row: Word;
+    X, Y: Integer;
+Begin
+    With FieldImage Do
+    Begin
+        FieldSize := BASED_FIELD_SIZE * MainForm.ClientWidth Div BASED_CLIENT_WIDTH;
+        Width := FieldSize;
+        Height := FieldSize;
+
+        Left := (MainForm.ClientWidth - Width) Div 2;
+        Top := BASED_FORM_MARGINS_TOP_BOTTOM * MainForm.ClientHeight Div BASED_CLIENT_HEIGHT;
+
+        CellSize := FieldSize Div FIELD_CELLS_AMOUNT;
+    End;
+
+    With FieldImage.Canvas Do
+    Begin
+        Brush.Color := FIELD_LIGHT_COLOR;
+        For Col := 0 To FIELD_CELLS_AMOUNT - 1 Do
+        Begin
+            X := Col * CellSize;
+            For Row := 0 To FIELD_CELLS_AMOUNT - 1 Do
+            Begin
+                Y := Row * CellSize;
+                Rectangle(X, Y, X + CellSize, Y + CellSize);
+                If Brush.Color = FIELD_LIGHT_COLOR Then
+                    Brush.Color := FIELD_DARK_COLOR
+                Else
+                    Brush.Color := FIELD_LIGHT_COLOR;
+            End;
+            If Brush.Color = FIELD_LIGHT_COLOR Then
+                Brush.Color := FIELD_DARK_COLOR
+            Else
+                Brush.Color := FIELD_LIGHT_COLOR;
+        End;
+    End;
+End;
+
+End.

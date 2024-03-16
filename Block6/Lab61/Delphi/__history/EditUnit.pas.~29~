@@ -1,0 +1,113 @@
+Unit EditUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls, Vcl.Mask;
+
+Type
+    TEditForm = Class(TForm)
+
+    NameLabel: TLabel;
+    NameEdit: TEdit;
+    AuthorLabel: TLabel;
+    AuthorEdit: TEdit;
+    DirectorLabel: TLabel;
+    DirectorEdit: TEdit;
+    DateLabel: TLabel;
+    DatePicker: TDateTimePicker;
+    TimeLabel: TLabel;
+    TimePicker: TDateTimePicker;
+
+    OkButton: TButton;
+    CancelButton: TButton;
+
+    Procedure ComponentKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+    Procedure ComponentChange(Sender: TObject);
+
+    Procedure OkButtonClick(Sender: TObject);
+    Procedure CloseButtonClick(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+Var
+    EditForm: TEditForm;
+
+Implementation
+
+{$R *.dfm}
+
+Uses MainUnit;
+
+Function IsFullFields() : Boolean;
+Begin
+    IsFullFields := (EditForm.NameEdit.Text <> '') And (EditForm.AuthorEdit.Text <> '') And (EditForm.DirectorEdit.Text <> '');
+End;
+
+Function AreFormShowsDifferent(ShowsArr: TShows; EditingRow: Integer) : Boolean;
+Const
+    EPS = 0.0001;
+Var
+    IsDifferent: Boolean;
+    I: Integer;
+Begin
+    IsDifferent := True;
+    I := 1;
+    While IsDifferent And (I < Length(ShowsArr)) Do
+    Begin
+        IsDifferent := ('"' + EditForm.NameEdit.Text + '"' <> ShowsArr[I].Name) Or
+                       (EditForm.AuthorEdit.Text <> ShowsArr[I].Author) Or
+                       (EditForm.DirectorEdit.Text <> ShowsArr[I].Director) Or
+                       (EditForm.DatePicker.Date <> ShowsArr[I].Date) Or
+                       (Abs(EditForm.TimePicker.Time - ShowsArr[I].Time) > EPS) Or
+                       (EditingRow = I);
+        Inc(I);
+    End;
+    AreFormShowsDifferent := IsDifferent;
+End;
+
+
+
+Procedure TEditForm.ComponentKeyDown(Sender: TObject; Var Key: Word; Shift: TShiftState);
+Const
+    ENTER = Ord(#13);
+Begin
+    If Key = VK_UP Then
+        SelectNext(TWinControl(Sender), False, True)
+    Else If Key = VK_DOWN Then
+        SelectNext(TWinControl(Sender), True, True)
+    Else If (Key = ENTER) And IsFullFields() And AreFormShowsDifferent(ShowsArr, EditingRow) Then
+        OkButtonClick(OkButton);
+End;
+
+Procedure TEditForm.ComponentChange(Sender: TObject);
+Begin
+    If IsFullFields() And AreFormShowsDifferent(ShowsArr, EditingRow) Then
+        OkButton.Enabled := True
+    Else
+        OkButton.Enabled := False;
+End;
+
+
+
+Procedure TEditForm.OkButtonClick(Sender: TObject);
+Begin
+    ShowsArr[EditingRow].Name := '"' + NameEdit.Text + '"';
+    ShowsArr[EditingRow].Author := AuthorEdit.Text;
+    ShowsArr[EditingRow].Director := DirectorEdit.Text;
+    ShowsArr[EditingRow].Date := DatePicker.Date;
+    ShowsArr[EditingRow].Time := TimePicker.Time;
+    IsEdited := True;
+    Close;
+End;
+
+Procedure TEditForm.CloseButtonClick(Sender: TObject);
+Begin
+    Close;
+End;
+
+End.

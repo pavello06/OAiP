@@ -96,6 +96,7 @@ Begin
         ModalLabel.Caption := LabelText;
         ModalLabel.Left := (ModalForm.ClientWidth - ModalLabel.Width) Div 2;
         ModalLabel.Top := (ModalForm.ClientHeight - ModalLabel.Height) Div 2;
+        ModalForm.OnHelp := MainForm.MainFormHelp;
         ModalForm.ShowModal;
     Finally
         ModalForm.Free;

@@ -1,0 +1,137 @@
+object StartForm: TStartForm
+  Left = 0
+  Top = 0
+  HelpContext = 1
+  BorderIcons = [biSystemMenu, biMinimize]
+  Caption = #1055#1089#1090#1088#1080#1095#1082#1080
+  ClientHeight = 505
+  ClientWidth = 948
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -25
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  WindowState = wsMaximized
+  OnResize = StartFormResize
+  TextHeight = 35
+  inline MenuFrame: TMenuFrame
+    Left = 0
+    Top = 0
+    Width = 948
+    Height = 505
+    Align = alClient
+    TabOrder = 0
+    ExplicitWidth = 942
+    ExplicitHeight = 496
+    inherited BackGroundImage: TImage
+      Width = 948
+      Height = 505
+      ExplicitLeft = -96
+      ExplicitWidth = 948
+      ExplicitHeight = 505
+    end
+    inherited TitleLabel: TLabel
+      Left = 264
+      Top = 16
+      ExplicitLeft = 264
+      ExplicitTop = 16
+    end
+  end
+  object PlayPanel: TPanel
+    Left = 360
+    Top = 144
+    Width = 217
+    Height = 50
+    Cursor = crHandPoint
+    Caption = #1048#1075#1088#1072#1090#1100
+    Color = clInfoBk
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsItalic]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 1
+    OnMouseEnter = PanelMouseEnter
+    OnMouseLeave = PanelMouseLeave
+  end
+  object RatingPanel: TPanel
+    Left = 360
+    Top = 286
+    Width = 217
+    Height = 44
+    Cursor = crHandPoint
+    Caption = #1056#1077#1081#1090#1080#1085#1075
+    Color = clInfoBk
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsItalic]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 2
+    OnMouseEnter = PanelMouseEnter
+    OnMouseLeave = PanelMouseLeave
+  end
+  object RulePanel: TPanel
+    Left = 360
+    Top = 215
+    Width = 217
+    Height = 50
+    Cursor = crHandPoint
+    Caption = #1055#1088#1072#1074#1080#1083#1072
+    Color = clInfoBk
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsItalic]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 3
+    OnClick = RulePanelClick
+    OnMouseEnter = PanelMouseEnter
+    OnMouseLeave = PanelMouseLeave
+  end
+  object SettingsPanel: TPanel
+    Left = 360
+    Top = 355
+    Width = 217
+    Height = 50
+    Cursor = crHandPoint
+    Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1080
+    Color = clInfoBk
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsItalic]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 4
+    OnMouseEnter = PanelMouseEnter
+    OnMouseLeave = PanelMouseLeave
+  end
+  object ExitPanel: TPanel
+    Left = 360
+    Top = 426
+    Width = 217
+    Height = 47
+    Cursor = crHandPoint
+    Caption = #1042#1099#1081#1090#1080
+    Color = clInfoBk
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsItalic]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 5
+    OnMouseEnter = PanelMouseEnter
+    OnMouseLeave = PanelMouseLeave
+  end
+end

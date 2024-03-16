@@ -1,0 +1,144 @@
+Unit MainUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
+    Vcl.Imaging.pngimage, FrontEndUnit;
+
+Const
+    FIELD_CELLS_AMOUNT = 8;
+
+Type
+    TMainForm = Class(TForm)
+        FieldImage: TImage;
+        HorseFigureImage: TImage;
+        StartButton: TButton;
+        HorseFigureTimer: TTimer;
+
+        Procedure FormCreate(Sender: TObject);
+        Procedure FormResize(Sender: TObject);
+
+        Procedure StartButtonClick(Sender: TObject);
+        Procedure HorseFigureTimerTimer(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    MainForm: TMainForm;
+
+Implementation
+
+{$R *.dfm}
+
+Type
+    TPosition = Record
+        X, Y: Integer;
+    End;
+
+Var
+    Field: Array [0..FIELD_CELLS_AMOUNT - 1, 0..FIELD_CELLS_AMOUNT - 1] Of Integer;
+    Moves: Array [1 .. 8] Of TPosition = ((X: - 2; Y: - 1),
+                                          (X: - 2; Y: 1),
+                                          (X: - 1; Y: - 2),
+                                          (X: - 1; Y: 2),
+                                          (X: 1; Y: - 2),
+                                          (X: 1; Y: 2),
+                                          (X: 2; Y: 1),
+                                          (X: 2; Y: - 1));
+    MoveCount: Integer = 0;
+
+Procedure TMainForm.FormCreate(Sender: TObject);
+Begin
+    //
+End;
+
+Procedure TMainForm.FormResize(Sender: TObject);
+Begin
+    DrawField(FieldImage);
+    DrawButton(FieldImage, StartButton);
+    DrawHorse(FieldImage, HorseFigureImage);
+End;
+
+
+Procedure InitializeField();
+Var
+    Col, Row: Word;
+Begin
+    For Col := 0 To FIELD_CELLS_AMOUNT - 1 Do
+        For Row := 0 To FIELD_CELLS_AMOUNT - 1 Do
+            Field[Col, Row] := 0;
+End;
+
+Function IsValidMove(Const X, Y: Integer): Boolean;
+Begin
+    IsValidMove := (X >= 0) And (X < FIELD_CELLS_AMOUNT) And
+                   (Y >= 0) And (Y < FIELD_CELLS_AMOUNT) And
+                   (Field[X, Y] = 0);
+End;
+
+Function KnightTour(Const CurrentX, CurrentY, MoveCount: Integer): Boolean;
+Var
+    NextX, NextY, MoveIndex: Integer;
+Begin
+    Field[CurrentX, CurrentY] := MoveCount;
+
+    If MoveCount = FIELD_CELLS_AMOUNT * FIELD_CELLS_AMOUNT Then
+    Begin
+        Result := True;
+        Exit;
+    End;
+
+    For MoveIndex := 1 To 8 Do
+    Begin
+        NextX := CurrentX + Moves[MoveIndex].X;
+        NextY := CurrentY + Moves[MoveIndex].Y;
+
+        If IsValidMove(NextX, NextY) And KnightTour(NextX, NextY, MoveCount + 1) Then
+        Begin
+            Result := True;
+            Exit;
+        End;
+    End;
+
+    Field[CurrentX, CurrentY] := 0;
+    Result := False;
+End;
+
+Procedure TMainForm.StartButtonClick(Sender: TObject);
+Begin
+    DrawField(FieldImage);
+    DrawHorse(FieldImage, HorseFigureImage);
+    InitializeField();
+    KnightTour(0, 0, 1);
+    HorseFigureTimer.Enabled := True;
+End;
+
+
+Procedure TMainForm.HorseFigureTimerTimer(Sender: TObject);
+Var
+    Col, Row: Word;
+Begin
+    For Col := 0 To FIELD_CELLS_AMOUNT - 1 Do
+        For Row := 0 To FIELD_CELLS_AMOUNT - 1 Do
+            If Field[Col, Row] = MoveCount Then
+                
+    FieldImage.Canvas.TextOut(Col * CellSize + CellSize Div 2 + BorderSize, Row * CellSize + CellSize Div 2 + BorderSize, IntToStr(Field[Col, Row]));
+    If (Col = FIELD_CELLS_AMOUNT - 1) And (Row = FIELD_CELLS_AMOUNT - 1) Then
+        HorseFigureTimer.Enabled := False
+    Else If Col = FIELD_CELLS_AMOUNT - 1 Then
+    Begin
+        Col := 0;
+        Inc(Row);
+    End
+    Else
+        Inc(Col);
+End;
+
+End.

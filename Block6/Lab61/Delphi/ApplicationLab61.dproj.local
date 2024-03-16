@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.974,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.180,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.902,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.471,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.909,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.428,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\BSUIR\OAiP\Block6\Lab61\Delphi\ApplicationLab62.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.482,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.dfm=C:\BSUIR\OAiP\Block6\Lab61\Delphi\MainUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.974,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.218,C:\BSUIR\OAiP\Block6\Lab61\Delphi\ApplicationLab61.dproj=C:\BSUIR\OAiP\Block6\Lab61\Delphi\ApplicationLab62.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.482,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.pas=C:\BSUIR\OAiP\Block6\Lab61\Delphi\MainUnit.pas</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,66 @@
+Unit SettingsUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, MenuUnit, Vcl.ExtCtrls,
+    Vcl.Imaging.pngimage, System.ImageList, Vcl.ImgList, Vcl.Buttons,
+    Vcl.Imaging.jpeg;
+
+Type
+    TSettingsForm = Class(TForm)
+        MenuFrame: TMenuFrame;
+
+        BackPanel: TPanel;
+
+        Procedure SettingsFormResize(Sender: TObject);
+
+        Procedure PanelMouseEnter(Sender: TObject);
+        Procedure PanelMouseLeave(Sender: TObject);
+        Procedure BackPanelClick(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    SettingsForm: TSettingsForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TSettingsForm.SettingsFormResize(Sender: TObject);
+Begin
+    With MenuFrame Do
+    Begin
+        MenuFrame.MenuFrameResize(MenuFrame);
+
+
+        //BackPanel.Top := RuleLabel.Top + RuleLabel.Height + BASIC_RULE_PANEL_DISNACE * ClientHeight Div BASIC_CLIENT_HEIGHT;
+        PanelProperties(BackPanel, PanelWidth, PanelHeight, PanelFontSize, PanelLeft);
+    End;
+End;
+
+
+
+Procedure TSettingsForm.PanelMouseEnter(Sender: TObject);
+Begin
+    MenuFrame.PanelMoveEnter(Sender);
+End;
+
+Procedure TSettingsForm.PanelMouseLeave(Sender: TObject);
+Begin
+    MenuFrame.PanelMoveLeave(Sender);
+End;
+
+Procedure TSettingsForm.BackPanelClick(Sender: TObject);
+Begin
+    Close;
+End;
+
+End.

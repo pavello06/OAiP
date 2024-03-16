@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.492,C:\BSUIR\OAiP\Block6\Lab62\MainUnit.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.339,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.180,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.832,C:\BSUIR\OAiP\Block6\Lab62\FrontEnd.pas=C:\BSUIR\OAiP\Block6\Lab62\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.906,C:\BSUIR\OAiP\Block6\Lab62\ApplicationLab62.dproj=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.492,C:\BSUIR\OAiP\Block6\Lab62\MainUnit.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.036,C:\BSUIR\OAiP\Block6\Lab62\Delphi\BackEndUnit.pas=C:\BSUIR\OAiP\Block6\Lab62\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.909,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.046,=C:\BSUIR\OAiP\Block6\Lab62\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.206,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.dfm=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.291,=C:\BSUIR\OAiP\Block6\Lab62\Delphi\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.725,=C:\BSUIR\OAiP\Block6\Lab62\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.902,=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.206,C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\MainUnit.pas=C:\Users\Pavel\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.452,C:\BSUIR\OAiP\Block6\Lab62\FrontEndUnit.pas=C:\BSUIR\OAiP\Block6\Lab62\FrontEnd.pas</Transaction>
+  </Transactions>
+</BorlandProject>

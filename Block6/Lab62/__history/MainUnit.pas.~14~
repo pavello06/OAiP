@@ -1,0 +1,68 @@
+Unit MainUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls,
+    Vcl.Imaging.pngimage, FrontEndUnit;
+
+Const
+    FIELD_CELLS_AMOUNT = 8;
+
+Type
+    TMainForm = Class(TForm)
+        FieldImage: TImage;
+        HorseFigureImage: TImage;
+        StartButton: TButton;
+        HorseFigureTimer: TTimer;
+
+        Procedure FormCreate(Sender: TObject);
+        Procedure StartButtonClick(Sender: TObject);
+        Procedure HorseFigureTimerTimer(Sender: TObject);
+        Procedure FormResize(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    MainForm: TMainForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TMainForm.FormCreate(Sender: TObject);
+Begin
+    DrawField(FieldImage);
+    DrawButton(FieldImage, StartButton);
+End;
+
+Procedure TMainForm.StartButtonClick(Sender: TObject);
+Begin
+    DrawField(FieldImage);
+
+    HorseFigureImage.Left := FieldImage.Left;
+    HorseFigureImage.Top := FieldImage.Top;
+
+    HorseFigureImage.Visible := Enabled;
+
+    // FigureOfHorseTimer.Enabled := True;
+End;
+
+Procedure TMainForm.FormResize(Sender: TObject);
+Begin
+    DrawField(FieldImage);
+    DrawButton(FieldImage, StartButton);
+End;
+
+Procedure TMainForm.HorseFigureTimerTimer(Sender: TObject);
+Begin
+    //
+End;
+
+End.

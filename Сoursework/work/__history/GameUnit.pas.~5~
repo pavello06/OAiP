@@ -1,0 +1,38 @@
+Unit GameUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.Imaging.pngimage,
+    Vcl.Imaging.jpeg;
+
+Type
+    TGameForm = Class(TForm)
+        BackgroundImage: TImage;
+        GameFieldImage: TImage;
+        SettingsImage: TImage;
+        Procedure GameFormCreate(Sender: TObject);
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    GameForm: TGameForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TGameForm.GameFormCreate(Sender: TObject);
+Begin
+    SettingsImage.Left := 50;
+    SettingsImage.Top := 50;
+    GameFieldImage.Left := (ClientWidth - GameFieldImage.Width) Div 2;
+    GameFieldImage.Top := (ClientHeight - GameFieldImage.Height) Div 2;
+End;
+
+End.

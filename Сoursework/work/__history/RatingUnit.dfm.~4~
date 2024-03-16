@@ -1,0 +1,61 @@
+object RatingForm: TRatingForm
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsSingle
+  Caption = #1056#1077#1081#1090#1080#1085#1075
+  ClientHeight = 442
+  ClientWidth = 628
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  WindowState = wsMaximized
+  OnResize = RatingFormResize
+  TextHeight = 15
+  inline MenuFrame: TMenuFrame
+    Left = 0
+    Top = 0
+    Width = 628
+    Height = 442
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = -12
+    ExplicitTop = -38
+    inherited BackGroundImage: TImage
+      Width = 628
+      Height = 442
+    end
+  end
+  object BackPanel: TPanel
+    Left = 216
+    Top = 331
+    Width = 217
+    Height = 47
+    Cursor = crHandPoint
+    Caption = #1053#1072#1079#1072#1076
+    Color = clInfoBk
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -33
+    Font.Name = 'Segoe UI'
+    Font.Style = [fsBold, fsItalic]
+    ParentBackground = False
+    ParentFont = False
+    TabOrder = 1
+    OnClick = BackPanelClick
+    OnMouseEnter = PanelMouseEnter
+    OnMouseLeave = PanelMouseLeave
+  end
+  object RatingStringGrid: TStringGrid
+    Left = 160
+    Top = 168
+    Width = 320
+    Height = 120
+    Color = clHotLight
+    ColCount = 2
+    TabOrder = 2
+  end
+end

@@ -1,0 +1,89 @@
+Unit StartUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Imaging.jpeg,
+    Vcl.ExtCtrls, Vcl.ComCtrls, MenuUnit, RuleUnit;
+
+Type
+    TStartForm = Class(TForm)
+        MenuFrame: TMenuFrame;
+
+        PlayPanel: TPanel;
+        RulePanel: TPanel;
+        RatingPanel: TPanel;
+        SettingsPanel: TPanel;
+        ExitPanel: TPanel;
+
+        Procedure StartFormResize(Sender: TObject);
+
+        Procedure PanelMoveEnter(Sender: TObject);
+        Procedure PanelMoveLeave(Sender: TObject);
+        Procedure RulePanelClick(Sender: TObject);
+
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    StartForm: TStartForm;
+
+Implementation
+
+{$R *.dfm}
+
+Procedure TStartForm.StartFormResize(Sender: TObject);
+Var
+    PanelDistance: Integer;
+Begin
+    With MenuFrame Do
+    Begin
+        MenuFrame.MenuFrameResize(MenuFrame);
+
+        PanelDistance := BASIC_PANELS_DISTANCE * ClientHeight Div BASIC_CLIENT_HEIGHT;
+
+        PlayPanel.Top := TitleLabel.Top + TitleLabel.Height + BASIC_TITLE_PANEL_DISTANCE * ClientHeight Div BASIC_CLIENT_HEIGHT;
+        PanelProperties(PlayPanel, PanelWidth, PanelHeight, PanelFontSize, PanelLeft);
+
+        RulePanel.Top := PlayPanel.Top + PlayPanel.Height + PanelDistance;
+        PanelProperties(RulePanel, PanelWidth, PanelHeight, PanelFontSize, PanelLeft);
+
+        SettingsPanel.Top := RulePanel.Top + RulePanel.Height + PanelDistance;
+        PanelProperties(SettingsPanel, PanelWidth, PanelHeight, PanelFontSize, PanelLeft);
+
+        RatingPanel.Top := SettingsPanel.Top + SettingsPanel.Height + PanelDistance;
+        PanelProperties(RatingPanel, PanelWidth, PanelHeight, PanelFontSize, PanelLeft);
+
+        ExitPanel.Top := RatingPanel.Top + RatingPanel.Height + PanelDistance;
+        PanelProperties(ExitPanel, PanelWidth, PanelHeight, PanelFontSize, PanelLeft);
+    End;
+End;
+
+
+
+Procedure TStartForm.PanelMoveEnter(Sender: TObject);
+Begin
+    TPanel(Sender).Font.Style := [fsBold, fsItalic, fsUnderLine];
+End;
+
+Procedure TStartForm.PanelMoveLeave(Sender: TObject);
+Begin
+    TPanel(Sender).Font.Style := [fsBold, fsItalic];
+End;
+
+
+
+Procedure TStartForm.RulePanelClick(Sender: TObject);
+Begin
+    RuleForm := TRuleForm.Create(Self);
+    RuleForm.Icon := RuleForm.Icon;
+    RuleForm.ShowModal;
+    RuleForm.Free;
+End;
+
+End.

@@ -1,0 +1,88 @@
+Unit MainUnit;
+
+Interface
+
+Uses
+    Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
+    System.Classes, Vcl.Graphics,
+    Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+Const
+    WATCH_IMAGE_PADDING_LEFT_RIGHT = 80;
+    WATCH_IMAGE_PADDING_TOP_BOTTOM = 20;
+    WATCH_IMAGE_BOX_PEN_WIDTH = 10;
+
+Type
+    TMainForm = Class(TForm)
+        StartButton: TButton;
+        WatchTimer: TTimer;
+        WatchImage: TImage;
+        Procedure MainFormCreate(Sender: TObject);
+        Procedure StartButtonClick(Sender: TObject);
+    Private
+        { Private declarations }
+    Public
+        { Public declarations }
+    End;
+
+Var
+    MainForm: TMainForm;
+
+Implementation
+
+{$R *.dfm}
+
+Var
+    ClearLevel, SandLevel: Integer;
+
+Procedure PaintWatch(WatchImage: TImage);
+Begin
+    With WatchImage.Canvas Do
+    Begin
+        Pen.Width := WATCH_IMAGE_BOX_PEN_WIDTH;
+        Pen.Color := clRed;
+        Polygon([Point(0 + WATCH_IMAGE_PADDING_LEFT_RIGHT,
+                       0 + WATCH_IMAGE_PADDING_TOP_BOTTOM),
+                 Point(WatchImage.Width - WATCH_IMAGE_PADDING_LEFT_RIGHT,
+                       0 + WATCH_IMAGE_PADDING_TOP_BOTTOM),
+                 Point(0 + WATCH_IMAGE_PADDING_LEFT_RIGHT,
+                       WatchImage.Height - WATCH_IMAGE_PADDING_TOP_BOTTOM),
+                 Point(WatchImage.Width - WATCH_IMAGE_PADDING_LEFT_RIGHT,
+                       WatchImage.Height - WATCH_IMAGE_PADDING_TOP_BOTTOM)]);
+    End;
+End;
+
+Procedure TMainForm.MainFormCreate(Sender: TObject);
+Begin
+    WatchTimer.Enabled := False;
+    PaintWatch(WatchImage);
+    ClearLevel := 0 + WATCH_IMAGE_PADDING_TOP_BOTTOM + WATCH_IMAGE_BOX_PEN_WIDTH;
+    SandLevel := WatchImage.Height - WATCH_IMAGE_PADDING_TOP_BOTTOM - WATCH_IMAGE_BOX_PEN_WIDTH;
+End;
+
+
+
+Procedure PaintSand(WatchImage: TImage);
+Begin
+    With WatchImage.Canvas Do
+    Begin
+        Pen.Width := 0;
+        Brush.Color := clYellow;
+        Polygon([Point(0 + WATCH_IMAGE_PADDING_LEFT_RIGHT + WATCH_IMAGE_BOX_PEN_WIDTH,
+                       0 + WATCH_IMAGE_PADDING_TOP_BOTTOM + WATCH_IMAGE_BOX_PEN_WIDTH Div 2),
+                 Point(WatchImage.Width - WATCH_IMAGE_PADDING_LEFT_RIGHT - WATCH_IMAGE_BOX_PEN_WIDTH,
+                       0 + WATCH_IMAGE_PADDING_TOP_BOTTOM + WATCH_IMAGE_BOX_PEN_WIDTH Div 2),
+                 Point(WatchImage.Width Div 2,
+                       (WatchImage.Height - WATCH_IMAGE_BOX_PEN_WIDTH) Div 2)]);
+    End;
+End;
+
+Procedure TMainForm.StartButtonClick(Sender: TObject);
+Begin
+    PaintSand(WatchImage);
+    WatchTimer.Enabled := True;
+End;
+
+
+
+End.
